@@ -3,11 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@ViewData["Title"] - ImageFlashCards</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/flashcard.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -15,44 +17,63 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    @RenderSection("Styles", false)
 </head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-page="/Index" class="navbar-brand">ImageFlashCards</a>
+<body class="wrapper" onload="whenBodyLoads()">
+
+
+
+    @* <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">*
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-page="/Index" class="navbar-brand">ImageFlashCards</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-page="/Index">Home</a></li>
+                        <li><a asp-page="/About">About</a></li>
+                        <li><a asp-page="/Contact">Contact</a></li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-page="/Index">Home</a></li>
-                    <li><a asp-page="/About">About</a></li>
-                    <li><a asp-page="/Contact">Contact</a></li>
-                </ul>
-                <partial name="_LoginPartial" />
-            </div>
-        </div>
+        </nav> *@
+    <!-- styling empty html tags-->
+    @*<b class="nav-left"></b>
+        <b class="nav-right"></b>*@
+    <!-- end of styling empty html tags-->
+    <nav>
+        <ul>
+            <li><a asp-page="/Index">Home</a></li>
+            <li><a asp-page="/About">About</a></li>
+            <li><a asp-page="/Contact">Contact</a></li>
+        </ul>
+        <partial name="_LoginPartial" />
     </nav>
+    @*<partial name="_CookieConsentPartial" />*@
 
-    <partial name="_CookieConsentPartial" />
-
-    <div class="container body-content">
+    <main class="box-main">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - ImageFlashCards</p>
-        </footer>
-    </div>
+    </main>
+    <hr />
+    <footer>
+        <p>&copy; 2019 - ImageFlashCards</p>
+    </footer>
+    <aside class="box-left" style="background-color: rgb(8, 127, 148);">c </aside>
+    <aside class="box-right" style="background-color: rgb(83, 121, 83);"> a </aside>
+    <b class="nav-left"></b>
+    <b class="nav-right"></b>
 
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
+        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
