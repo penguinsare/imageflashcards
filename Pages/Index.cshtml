@@ -10,19 +10,33 @@
     @*<div class="box-left" style="background-color: rgb(8, 127, 148);">c </div>*@
     @*<div class="box-main" style="background-color: rgb(63, 63, 87);"> b</div>*@
     <div class="main-box">
-        <div class="lesson-controls">
-            <div>
-                <span style="float: left;">study</span>
-                <label class="switch">
-
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-
-                </label>
-                <span style="float: right;">test</span>
+            <div class="panel">
+                <ul>
+                    <li>
+                        <button><span>&lt;&lt; Previous Lesson</span></button>
+                    </li>
+                    <li>
+                        <div style="background-color: black;"><div />
+                    </li>
+                    <li>
+                        <label for="test" style="margin: auto;">
+                            <label class="switch">
+                                <input id="test" type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                            <span>Study</span>
+                        </label>
+                    </li>
+                    <li>
+                        <div style="background-color: black;"><div />
+                    </li>
+                    <li>
+                        <button><span>Next Lesson >></span></button>
+                    </li>
+                </ul>
             </div>
-            
-        </div>
+
+       
         <div id="box-image" class="box-image" style="background-color: gray;">
             @foreach (var flashcard in Model.FlashcardList) {
                 <partial name="../Pages/Shared/_Flashcard.cshtml" for="@flashcard" />

@@ -2,14 +2,19 @@
 const minFcWidth = 150;
 
 // set max data length of the flash card depending on the words length
-(function () {    
+(function () {  
+    console.log("IIFE");
+
     let flashcardList = document.querySelectorAll(".flashcard");
     console.log(flashcardList);
     flashcardList.forEach((flashcard, index) => {
-        let maxCharLength = Math.max(
-            flashcard.children[0].innerHTML.length,
-            flashcard.children[2].innerHTML.length);
-        let proposedFcLength = (maxCharLength + 4) * 10;
+        console.log("test")
+        console.log(flashcard.querySelector(".foreign-word").innerHTML)
+        console.log(flashcard.querySelector(".native-word").innerHTML)
+        let maxWordLength = Math.max(
+            flashcard.querySelector(".foreign-word").innerHTML.length,
+            flashcard.querySelector(".native-word").innerHTML.length);
+        let proposedFcLength = (maxWordLength + 4) * 10;
         flashcard.setAttribute("data-max-length",
             (minFcWidth > proposedFcLength) ? (minFcWidth + 'px') : (proposedFcLength + 'px'));
         flashcard.setAttribute("data-tries", 0);
@@ -18,6 +23,8 @@ const minFcWidth = 150;
 
 
 function positionFc() {
+    console.log("positionFc() ");
+
     this.counter++;
     let flashcardList = document.querySelectorAll(".flashcard");
     //console.log(flashcardList);
@@ -71,20 +78,25 @@ function positionFc() {
 var counter = 1;
 
 function whenBodyLoads() {
-    console.log("when body loads");
+    console.log("when BodyLoads()");
     window.onresize = this.positionFc;
     positionFc();
-    let flashcardList = document.querySelector('.flashcard');
+    let flashcardList = document.querySelectorAll('.flashcard');
     console.log(flashcardList);
     flashcardList.forEach(flashcard => {
-        flashcard.addEventListener('transitionend', showFlashCard);
-        flashcard.addEventListener('transitionstart', hideFlashCard);
+        flashcard.addEventListener('transitionend', showFlashcardContents);
+        flashcard.addEventListener('transitionstart', hideFlashcardContents);
+        //don't use mouseenter because it triggers leave when the cursor is on child element
+        flashcard.addEventListener('mouseenter', expandFlashcard);
+        flashcard.addEventListener('mouseleave', contractFlashcard);
     })
-    transition.addEventListener('transitionend', showFlashCard)
-     transition.addEventListener('transitionstart', hideFlashCard)
+    //transition.addEventListener('transitionend', showFlashCard)
+    // transition.addEventListener('transitionstart', hideFlashCard)
 }
 
 function maxImageWidth() {
+    console.log("maxImageWidth()");
+
     let lessonImage = document.getElementById('lesson-image');
     if (lessonImage.naturalWidth > 375 &&
         lessonImage.naturalWidth < 1000) {
@@ -113,44 +125,94 @@ function maxImageWidth() {
  //    div.style.height = '20px'
  //}
 
-function hideFlashCard(divTransEvent) {
-    console.log("hide flashcard");
-     let childrenArray = divTransEvent.target.children
-     if (childrenArray[0].style.display === 'block') {
-         childrenArray[0].style.display = 'none'
-         // childrenArray[1].children[0].style.display = 'none'  
-         // childrenArray[1].children[1].style.display = 'none'     
-         childrenArray[1].style.display = 'none'  
-         //childrenArray[1].children[0].style.display = 'none'       
-     }
- }
+function contractFlashcard(mouseleaveEvent) {
+    console.log("contractFlashcard()");
+    let flashcard = mouseleaveEvent.target;
+    if (flashcard) {
+        if (flashcard.style.width === flashcard.getAttribute('data-max-length')) {
+            flashcard.style.width = "1em";
+            flashcard.style.height = "1.4em";
+        }
+    }
+    
+    
+}
 
-function showFlashCard(divTransEvent) {
-    console.log("show flashcard");
-     let childrenArray = divTransEvent.target.children
-     if ((childrenArray[0].style.display === '' || childrenArray[0].style.display === 'none') &&
-     divTransEvent.target.style.width === divTransEvent.target.getAttribute('data-max-length')) {
-         //childrenArray[0].style.display = 'block'
-         // childrenArray[1].children[0].style.display = 'block'
-         // childrenArray[1].children[1].style.display = 'inline'
-         childrenArray[2].style.display = 'block'
-         //childrenArray[1].children[0].style.display = 'inline'
-         childrenArray[1].children[0].focus()
-     }
- };
+function expandFlashcard(mouseenterEvent) {
+    console.log("expandFlashcard()");
+    let flashcard = mouseenterEvent.target;
 
- function onMouseEnterFc(divMouseEvent) {
-     console.log("mouseEnterEvent")
-     divMouseEvent.target.style.transition.delay = 0;
-     hideFlashCard(divMouseEvent)
- }
+    if (flashcard.style.width !== flashcard.getAttribute('data-max-length')) {
+        flashcard.style.width = flashcard.getAttribute('data-max-length')
+        flashcard.style.height = "3.5em";
+    }
+    
+    
+    //foreignWordInputSpan.style.display = 'block'
+    
+    
+};
 
- function onMouseLeaveFc(divMouseEvent) {
-     console.log("mouseLeaveEvent")
-     divMouseEvent.target.style.transition.delay = 3;
- }
+function hideFlashcardContents(transitionstartEvent) {
+    console.log("hideFlashcardContents()");
+    let flashcard = transitionstartEvent.target;
+    
+    let nativeWord = flashcard.querySelector(".native-word");
+
+    if (nativeWord.style.display === 'block') {
+        let foreignWordInputSpan = flashcard.querySelector(".foreign-word-span");
+        let foreignWordInput = foreignWordInputSpan.querySelector(".foreign-word-input");
+        let checkButton = foreignWordInputSpan.querySelector(".check-button");
+
+        nativeWord.style.display = 'none'
+        foreignWordInput.style.display = "none";
+        checkButton.style.display = "none";
+
+        flashcard.style.transitionDelay = "0s";
+    }
+}
+
+function showFlashcardContents(transitionendEvent) {
+    console.log("showFlashcardContents()");
+    let flashcard = transitionendEvent.target;
+
+    let nativeWord = flashcard.querySelector(".native-word");
+
+    if ((nativeWord.style.display === '' || nativeWord.style.display === 'none') &&
+        flashcard.style.width === flashcard.getAttribute('data-max-length')) {
+
+        let foreignWordInputSpan = flashcard.querySelector(".foreign-word-span");
+        let foreignWordInput = foreignWordInputSpan.querySelector(".foreign-word-input");
+        let checkButton = foreignWordInputSpan.querySelector(".check-button");
+
+        nativeWord.style.display = 'block'
+        foreignWordInputSpan.style.display = 'flex';
+        foreignWordInput.style.display = "inline";
+        checkButton.style.display = "flex";
+        flashcard.querySelector(".foreign-word-input").focus();
+
+        flashcard.style.transitionDelay = "1.5s";
+    }
+
+}
+//function onMouseEnterFc(flashcard) {
+//    console.log("onMouseEnterFc()");
+
+//    console.log(flashcard)
+//    flashcard.style.transition.delay = 0;
+//    showFlashCard(flashcard)
+//}
+
+//function onMouseLeaveFc(flashcard) {
+//    console.log("onMouseLeaveFc()");
+
+     
+//    flashcard.style.transition.delay = 3;
+//}
 
 function checkFc(button) {
+    console.log("checkFc()");
+
     console.log(button)
     console.log(button.parentElement.children[3])
     let input = button.parentElement.children[3].children[0]
@@ -281,6 +343,8 @@ function showForeignWord(button) {
 
 
 function onFcHover(div) {
+    console.log("onFcHover()");
+
     console.log(div.getAttribute("class"))
     let fcClassAttribute = div.getAttribute("class")
     fcClassAttribute.replace('top-left', "bottom-left")
@@ -292,6 +356,8 @@ function onFcHover(div) {
 }
 
 function switchFcOrientation(flashcard, orientation) {
+    console.log("switchFcOrientation()");
+
     let fcClassAttribute = flashcard.getAttribute("class")
     if (fcClassAttribute.lastIndexOf("top-left") > -1) {
         flashcard.setAttribute("class", fcClassAttribute.replace('top-left', orientation))

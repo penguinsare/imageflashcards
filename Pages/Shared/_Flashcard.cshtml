@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="~/css/flashcard.css" />
 }
 
-<div id="fc-1" class="flashcard top-left"
+<div class="flashcard top-left"
      @*onmouseover="onFcHover(this)"*@
-     onmouseover="onMouseEnterFc(this)"
-     onmouseout="onMouseLeaveFc(this)"
+     @*onmouseover="expandFlashcard(this)"
+     onmouseout="contractFlashcard(this)"*@
      data-xdistance="@Model.XCoordinate"
      data-ydistance="@Model.YCoordinate">
-    <button class="turn-fc-button" onclick="showForeignWord(this)">
+    <button class="turn-fc-button" 
+            onclick="showForeignWord(this)">
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="15 0 315 300">
             <path id="lineAB"
                   d="M100 100 Q250 70 250 150 Q250 230 100 200 M100 200 L140 160 M100 200 L140 240"
@@ -22,19 +23,24 @@
         </svg>
     </button>
     <span id="first-native-word" class="native-word">@Model.NativeWord</span>
-    <button class="check-button" onclick="checkFc(this)">
-        <svg class="svg-check-button" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 300 210">
-            <line x1="120" y1="40" x2="190" y2="106" stroke="white"
-                  stroke-width="28" stroke-linecap="round" />
-            <line x1="120" y1="173" x2="190" y2="106" stroke="white"
-                  stroke-width="28" stroke-linecap="round" />
-            <line x1="50" y1="40" x2="120" y2="106" stroke="white"
-                  stroke-width="28" stroke-linecap="round" />
-            <line x1="50" y1="173" x2="120" y2="106" stroke="white"
-                  stroke-width="28" stroke-linecap="round" />
-        </svg>
-    </button>
-    <span class="span1"><input class="foreign-word-input" size="2" type="text" placeholder="write word in German"></span>
-    <span class="span1"><span id="first-foreign-word" class="foreign-word">@Model.ForeignWord</span></span>
+    <span class="foreign-word-span">
+        
+        <input class="foreign-word-input" size="2" type="text" placeholder="write word in German">
+        <span class="foreign-word">@Model.ForeignWord</span>
+        <button class="check-button"
+                onclick="checkFc(this)">
+            <svg class="svg-check-button" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 300 210">
+                <line x1="120" y1="40" x2="190" y2="106" stroke="white"
+                      stroke-width="28" stroke-linecap="round" />
+                <line x1="120" y1="173" x2="190" y2="106" stroke="white"
+                      stroke-width="28" stroke-linecap="round" />
+                <line x1="50" y1="40" x2="120" y2="106" stroke="white"
+                      stroke-width="28" stroke-linecap="round" />
+                <line x1="50" y1="173" x2="120" y2="106" stroke="white"
+                      stroke-width="28" stroke-linecap="round" />
+            </svg>
+        </button>  
+    </span>
+
 </div>
 
