@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using ImageFlashCards.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ImageFlashCards.Models;
+using ImageFlashCards.Services;
 
 namespace ImageFlashCards
 {
@@ -35,12 +37,41 @@ namespace ImageFlashCards
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+                options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+                //.AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>();
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        Configuration.GetSection("Authentication:Google");
 
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    
+                })
+                .AddFacebook(options =>
+                {
+                    IConfigurationSection facebookAuthNSection =
+                        Configuration.GetSection("Authentication:Facebook");
 
+                    options.AppId = facebookAuthNSection["AppId"];
+                    options.AppSecret = facebookAuthNSection["AppSecret"];
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                    policyBuilder.RequireClaim("Role", "Admin");
+                });
+            });
+
+            services.AddTransient(typeof(ISavedImageHandler), typeof(SavedImageHandler));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -59,6 +90,7 @@ namespace ImageFlashCards
             }
 
             app.UseHttpsRedirection();
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

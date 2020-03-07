@@ -13,6 +13,7 @@ namespace ImageFlashCards.Pages
         public List<Flashcard> FlashcardList{ get; set; }
         public void OnGet()
         {
+            
             FlashcardList = new List<Flashcard>()
             {
                 new Flashcard() {

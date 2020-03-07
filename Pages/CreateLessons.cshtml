@@ -1,0 +1,78 @@
+﻿@page
+@model ImageFlashCards.Pages.CreateLessonsModel
+@{
+    ViewData["Title"] = "CreateLessons";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>CreateLessons</h2>
+
+
+@if (!String.IsNullOrEmpty(Model.ImageUrl))
+{
+    <h4>@Model.ImageUrl</h4>
+}
+
+<div class="main-box">
+    <div class="panel">
+        <ul>
+            <li>
+                <button class="add-flashcard">Add Flashcard</button>
+            </li>
+            <li>
+                <form method="post" asp-page-handler="UploadImage" enctype="multipart/form-data">
+                    <input type="file" asp-for="Upload" accept="image/jpeg" />
+                    <input type="submit" />
+                </form>
+            </li>
+            <li>
+                <button><span>&lt;&lt; Previous Lesson</span></button>
+            </li>
+            <li>
+                <div style="background-color: black;"><div />
+            </li>
+            <li>
+                <label for="test" style="margin: auto;">
+                    <label class="switch">
+                        <input id="test" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    <span>Study</span>
+                </label>
+            </li>
+            <li>
+                <div style="background-color: black;"><div />
+            </li>
+            <li>
+                <button><span>Next Lesson >></span></button>
+            </li>
+        </ul>
+    </div>
+
+
+    <div id="box-image" class="box-image" style="background-color: gray;">
+        @*@foreach (var flashcard in Model.Lesson.Flashcards)
+            {
+                <partial name="../Pages/Shared/_Flashcard.cshtml" for="@flashcard" />
+            }*@
+
+        @* @{ var url = "." + Model.ImageUrl; }*@
+        <img id="lesson-image"
+             src="@Model.ImageUrl"
+             alt="fruits">
+
+    </div>
+</div>
+
+@section scripts {
+    <environment include="Development">
+        <script src="~/js/jquery-3.4.1.slim.min.js" asp-append-version="true"></script>
+        <script src="~/js/fc-engine-with-jquery.js" asp-append-version="true"></script>
+        <script src="~/js/fc-engine.js" asp-append-version="true"></script>
+
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/fc-engine.js" asp-append-version="true"></script>
+    </environment>
+
+}

@@ -8,5 +8,6 @@ namespace ImageFlashCards.Models
 {
     public class ApplicationUser: IdentityUser
     {
+        public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
     }
 }
