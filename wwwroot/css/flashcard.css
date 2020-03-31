@@ -24,6 +24,24 @@
     -khtml-box-sizing: border-box;
 }
 
+.flashcard-added {
+    position: absolute; 
+    width: 10em; 
+    height: 5em; 
+    display: block; 
+    flex-flow: column;
+    background-color: orange; 
+    border-top-right-radius: 10%; 
+    border-bottom-right-radius: 10%; 
+    border-bottom-left-radius: 40%; 
+    top: 54.2074px; 
+    left: 101.506px; 
+    transition: width 0.3s ease 0s, height 0.7s ease 0s; 
+    z-index: 2; 
+    cursor: grab; 
+    padding: 0.5em;
+}
+
 .top-left {
     border-top-left-radius: 0;
     border-top-right-radius: 15px;

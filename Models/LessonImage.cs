@@ -11,8 +11,9 @@ namespace ImageFlashCards.Models
         public string ImagePhysicalPath { get; set; }
         public string ImageUrlPath { get; set; }
 
-        public string Name{ get; set; }
-        public string NameAndExtension { get; set; }
+        public string FileName{ get; set; }
+        public string FileNameAndExtension { get; set; }
+        public string ImageTitle { get; set; }
 
     }
 }

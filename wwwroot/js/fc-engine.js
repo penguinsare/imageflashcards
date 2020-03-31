@@ -98,19 +98,19 @@ function whenBodyLoads() {
 function maxImageWidth() {
     console.log("maxImageWidth()");
 
-    let lessonImage = document.getElementById('lesson-image');
-    console.log("naturalWidth of lessonImage" + lessonImage.naturalWidth);
+    //let lessonImage = document.getElementById('lesson-image');
+    //console.log("naturalWidth of lessonImage" + lessonImage.naturalWidth);
 
-    if (lessonImage.naturalWidth < 375) {
-        lessonImage.parentNode.style.maxWidth = 375 + 'px';
-        console.log("image is smaller than 375");
-    } else if (lessonImage.naturalWidth > 1000) {
-        lessonImage.parentNode.style.maxWidth = 1000 + 'px';
-        console.log("image is bigger than 1000");
-    } else {
-        essonImage.parentNode.style.maxWidth = lessonImage.parentNode.style.maxWidth + 'px';
-        console.log("image is between 375 and 1000 px");
-    }
+    //if (lessonImage.naturalWidth < 375) {
+    //    lessonImage.parentNode.style.maxWidth = 375 + 'px';
+    //    console.log("image is smaller than 375");
+    //} else if (lessonImage.naturalWidth > 1000) {
+    //    lessonImage.parentNode.style.maxWidth = 1000 + 'px';
+    //    console.log("image is bigger than 1000");
+    //} else {
+    //    essonImage.parentNode.style.maxWidth = lessonImage.parentNode.style.maxWidth + 'px';
+    //    console.log("image is between 375 and 1000 px");
+    //}
     //if (lessonImage.naturalWidth > 375 &&
     //    lessonImage.naturalWidth < 1000) {
     //    lessonImage.parentNode.style.maxWidth = event.target.naturalWidth + 'px';

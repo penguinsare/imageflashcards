@@ -32,6 +32,14 @@ namespace ImageFlashCards.Data
                     .HasForeignKey(uc => uc.UserId)
                     .IsRequired();
             });
+
+            modelBuilder.Entity<Lesson>(b =>
+            {
+                b.HasOne(lesson => lesson.Image)
+                .WithMany()
+                .HasForeignKey(image => image.LessonImageId)
+                .IsRequired();
+            });
         }
     }
 }

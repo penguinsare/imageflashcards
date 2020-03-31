@@ -54,8 +54,8 @@ namespace ImageFlashCards.Services
                     await imageFormFile.CopyToAsync(stream);
                     return new LessonImage()
                     {
-                        Name = Path.GetFileNameWithoutExtension(imageFormFile.FileName),
-                        NameAndExtension = Path.GetFileName(imageFormFile.FileName),
+                        FileName = Path.GetFileNameWithoutExtension(imageFormFile.FileName),
+                        FileNameAndExtension = Path.GetFileName(imageFormFile.FileName),
                         ImagePhysicalPath = filePath,
                         ImageUrlPath = Path.Combine(_configuration["ImageFolder:BaseUrlPath"]) + Path.GetFileName(imageFormFile.FileName)
                     };
@@ -82,8 +82,8 @@ namespace ImageFlashCards.Services
 
                     return new LessonImage()
                     {
-                        Name = Path.GetFileNameWithoutExtension(newFilePath),
-                        NameAndExtension = Path.GetFileName(newFilePath),
+                        FileName = Path.GetFileNameWithoutExtension(newFilePath),
+                        FileNameAndExtension = Path.GetFileName(newFilePath),
                         ImagePhysicalPath = newFilePath,
                         ImageUrlPath = Path.Combine(_configuration["ImageFolder:BaseUrlPath"]) + Path.GetFileName(newFilePath)
                     };

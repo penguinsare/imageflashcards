@@ -5,61 +5,85 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>CreateLessons</h2>
-
-
-@if (!String.IsNullOrEmpty(Model.ImageUrl))
-{
-    <h4>@Model.ImageUrl</h4>
-}
-
 <div class="main-box">
-    <div class="panel">
-        <ul>
-            <li>
-                <button class="add-flashcard">Add Flashcard</button>
-            </li>
-            <li>
-                <form method="post" asp-page-handler="UploadImage" enctype="multipart/form-data">
-                    <input type="file" asp-for="Upload" accept="image/jpeg" />
-                    <input type="submit" />
-                </form>
-            </li>
-            <li>
-                <button><span>&lt;&lt; Previous Lesson</span></button>
-            </li>
-            <li>
-                <div style="background-color: black;"><div />
-            </li>
-            <li>
-                <label for="test" style="margin: auto;">
-                    <label class="switch">
-                        <input id="test" type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                    <span>Study</span>
-                </label>
-            </li>
-            <li>
-                <div style="background-color: black;"><div />
-            </li>
-            <li>
-                <button><span>Next Lesson >></span></button>
-            </li>
-        </ul>
+    <div class="control-panel">
+
+        @if (Model.Lesson?.Image != null && Model.Lesson?.Flashcards?.Count <= 5)
+        {
+            @*<form asp-page="CreateLessons" asp-page-handler="OnGetAsyncAddFlashcard"
+                  asp-route-lessonid="@Model.Lesson.LessonId" method="get">
+                <input type="submit"  class="add-flashcard-button control-panel-item" value="Add Flashcard"/>
+            </form>*@
+            <a asp-page="CreateLessons" asp-page-handler="AddFlashcard"
+                  asp-route-lessonid="@Model.Lesson.LessonId">
+                Add Flashcard
+            </a>
+        }
+
+        @if (Model.Lesson?.Image == null)
+        {
+            <form class="control-panel-item" method="post" asp-page-handler="UploadImage" enctype="multipart/form-data">
+                <input type="file" asp-for="Upload" accept="image/jpeg" />
+                <input type="submit" />
+            </form>
+        }
+
+
+        <button class="control-panel-item"><span>&lt;&lt; Previous Lesson</span></button>
+
+
+        <label class="control-panel-item" for="test" style="margin: auto;">
+            <label class="switch">
+                <input id="test" type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <span>Study</span>
+        </label>
+        <button class="control-panel-item"><span>Next Lesson >></span></button>
     </div>
 
 
     <div id="box-image" class="box-image" style="background-color: gray;">
-        @*@foreach (var flashcard in Model.Lesson.Flashcards)
+        @*@if (Model.Lesson?.Flashcards?.Count > 0)
+        {
+            @foreach (var flashcard in Model.Lesson.Flashcards)
             {
-                <partial name="../Pages/Shared/_Flashcard.cshtml" for="@flashcard" />
-            }*@
+                <partial name="../Pages/Shared/_FlashcardForEdit.cshtml" for="@flashcard" />
+            }
+        }*@
+        @if (Model.Lesson?.Image != null)
+        {
+            <img id="lesson-image"
+                 src="@Model.Lesson?.Image?.ImageUrlPath"
+                 alt="@Model.Lesson?.Image?.ImageTitle">
+        }
 
-        @* @{ var url = "." + Model.ImageUrl; }*@
-        <img id="lesson-image"
-             src="@Model.ImageUrl"
-             alt="fruits">
+
+        @if (Model.Lesson?.Flashcards?.Count > 0)
+        {
+            @for (int index = 0; index <= Model.Lesson.Flashcards.Count - 1; index++)
+            {
+                <form asp-page="CreateLessons" method="post" asp-page-handler="SubmitFlashcards" asp-route-lessonid="@Model.Lesson?.LessonId">
+                    <div class="flashcard-added top-left"
+                        data-xdistance="@Model.Lesson.Flashcards[index].XCoordinate"
+                        data-ydistance="@Model.Lesson.Flashcards[index].YCoordinate">
+                        <div class="flashcard-content" style="display: flex; flex-flow: column; width: 100%; height: 100%;">
+
+                            <input class="word" style="z-index: 99;" type="text" asp-for="@Model.Flashcard.NativeWord" value="@Model.Lesson.Flashcards[index].NativeWord" />
+                            <input class="word" type="text" asp-for="@Model.Flashcard.ForeignWord" value="@Model.Lesson.Flashcards[index].ForeignWord" />
+                            <input class="xdistance" type="hidden" asp-for="@Model.Flashcard.XCoordinate" value="@Model.Lesson.Flashcards[index].XCoordinate" />
+                            <input class="ydistance" type="hidden" asp-for="@Model.Flashcard.YCoordinate" value="@Model.Lesson.Flashcards[index].YCoordinate" />
+                            <input type="hidden" asp-for="@Model.Flashcard.FlashcardId" value="@Model.Lesson.Flashcards[index].FlashcardId" />
+                            <input type="submit" value="Save" />
+                        </div>
+                    </div>
+                </form>
+            }
+
+        }
+
+
+                
 
     </div>
 </div>
@@ -67,8 +91,8 @@
 @section scripts {
     <environment include="Development">
         <script src="~/js/jquery-3.4.1.slim.min.js" asp-append-version="true"></script>
-        <script src="~/js/fc-engine-with-jquery.js" asp-append-version="true"></script>
-        <script src="~/js/fc-engine.js" asp-append-version="true"></script>
+        <script src="~/js/fc-engine-edit.js" asp-append-version="true"></script>
+        @*<script src="~/js/fc-engine.js" asp-append-version="true"></script>*@
 
     </environment>
     <environment exclude="Development">
