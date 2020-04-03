@@ -66,10 +66,11 @@
                 <form asp-page="CreateLessons" method="post" asp-page-handler="SubmitFlashcards" asp-route-lessonid="@Model.Lesson?.LessonId">
                     <div class="flashcard-added top-left"
                         data-xdistance="@Model.Lesson.Flashcards[index].XCoordinate"
-                        data-ydistance="@Model.Lesson.Flashcards[index].YCoordinate">
+                        data-ydistance="@Model.Lesson.Flashcards[index].YCoordinate"
+                        data-flashcard-id="@Model.Lesson.Flashcards[index].FlashcardId">
                         <div class="flashcard-content" style="display: flex; flex-flow: column; width: 100%; height: 100%;">
 
-                            <input class="word" style="z-index: 99;" type="text" asp-for="@Model.Flashcard.NativeWord" value="@Model.Lesson.Flashcards[index].NativeWord" />
+                            <input class="word" type="text" asp-for="@Model.Flashcard.NativeWord" value="@Model.Lesson.Flashcards[index].NativeWord" />
                             <input class="word" type="text" asp-for="@Model.Flashcard.ForeignWord" value="@Model.Lesson.Flashcards[index].ForeignWord" />
                             <input class="xdistance" type="hidden" asp-for="@Model.Flashcard.XCoordinate" value="@Model.Lesson.Flashcards[index].XCoordinate" />
                             <input class="ydistance" type="hidden" asp-for="@Model.Flashcard.YCoordinate" value="@Model.Lesson.Flashcards[index].YCoordinate" />

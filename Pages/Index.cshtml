@@ -19,41 +19,64 @@ else
 }*@
     <div class="main-box">
         <div class="panel">
-            <ul>
-                <li>
-                    <button><span>&lt;&lt; Previous Lesson</span></button>
+            <ul class="panel-list">
+                @if (Model.PreviousLessonId > 0)
+                {
+                <li class="panel-list-item panel-list-item-button">
+                    <a class="remove-text-decoration color-black" asp-page="Index" asp-route-lessonid="@Model.PreviousLessonId">
+                        <span class="panel-list-item-content">
+                            &lt;&lt; Previous Lesson
+                        </span>
+                    </a>
                 </li>
-                <li>
-                    <div style="background-color: black;"><div />
+                }
+                <li class="panel-list-item">
+                    <div class="control-panel-divider"><div />
                 </li>
-                <li>
-                    <label for="test" style="margin: auto;">
-                        <label class="switch">
-                            <input id="test" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        <span>Study</span>
+                <li class="panel-list-item panel-list-item-button">
+                    <label  for="test" style="width:100%; display:flex;align-items:center;justify-content:center;">
+                        @*<div style="width:100%;">*@
+                            <label class="switch">
+                                <input id="test" type="checkbox">
+                                <span class="slider round main-theme-background-color"></span>
+                            </label>
+                            <span class="panel-list-item-content" style="margin-left: 0.3em;">Study</span>
+                        @*</div>*@
                     </label>
                 </li>
-                <li>
-                    <div style="background-color: black;"><div />
+                <li class="panel-list-item">
+                    <div class="control-panel-divider"><div />
                 </li>
-                <li>
-                    <button><span>Next Lesson >></span></button>
-                </li>
+                @if (Model.NextLessonId > 0)
+                {
+
+                    <li class="panel-list-item panel-list-item-button">
+                        <a class="remove-text-decoration color-black" asp-page="Index" asp-route-lessonid="@Model.NextLessonId">
+                            <span class="panel-list-item-content">
+                                Next Lesson >>
+                            </span>
+                        </a>
+                    </li>
+                }
+
             </ul>
         </div>
 
        
         <div id="box-image" class="box-image" style="background-color: gray;">
-            @foreach (var flashcard in Model.FlashcardList) {
-                <partial name="../Pages/Shared/_Flashcard.cshtml" for="@flashcard" />
+            @if (Model.Lesson != null)
+            {
+                if (Model.Lesson?.Image != null)
+                {
+                    <img id="lesson-image" src="@Model.Lesson?.Image?.ImageUrlPath" alt="@Model.Lesson?.Image?.ImageTitle">
+                    @foreach (var flashcard in Model.Lesson?.Flashcards)
+                    {
+                        <partial name="../Pages/Shared/_Flashcard.cshtml" for="@flashcard" />
+                    }
+                }
             }
-            
-            <img id="lesson-image"                 
-                 src="./images/fruit-stand.jpg"
-                 alt="fruits">
-            
+
+
         </div>
     </div>
         @*<div class="box-right" style="background-color: rgb(83, 121, 83);"> a</div>*@
@@ -64,24 +87,27 @@ else
 
         @section scripts {
             <environment include="Development">
+                <script src="~/js/jquery-3.4.1.min.js" asp-append-version="true"></script>
                 <script src="~/js/fc-engine.js" asp-append-version="true"></script>
 
             </environment>
             <environment exclude="Development">
-                <script type="text/javascript">alert('hello');</script>
-                <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                @*<script type="text/javascript">alert('hello');</script>*@
+                <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.4.1.min.js"
                         asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                         asp-fallback-test="window.jQuery"
                         crossorigin="anonymous"
                         integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
                 </script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                        asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                        crossorigin="anonymous"
-                        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-                </script>
-                <script src="~/js/site.min.js" asp-append-version="true"></script>
+                @*<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>*@
+                @*<script src="~/js/site.min.js" asp-append-version="true"></script>*@
+                <script src="~/js/fc-engine.js" asp-append-version="true"></script>
+
             </environment>
 
         }

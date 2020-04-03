@@ -10,7 +10,7 @@
         @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
         <link rel="stylesheet" href="~/css/image-flashcards-main.css" />
         <link rel="stylesheet" href="~/css/flashcard.css" />
-        <link rel="stylesheet" href="~/css/lessonControls.css" />
+        <link rel="stylesheet" href="~/css/lesson-controls.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -20,11 +20,12 @@
     </environment>
     @RenderSection("Styles", false)
 </head>
-<body class="wrapper" onload="whenBodyLoads()">
+@*<body class="wrapper" onload="whenBodyLoads()">*@
+    <body class="wrapper" >
 
 
 
-    @* <nav class="navbar navbar-inverse navbar-fixed-top">
+        @* <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">*
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -45,55 +46,55 @@
                 </div>
             </div>
         </nav> *@
-    <!-- styling empty html tags-->
-    @*<b class="nav-left"></b>
+        <!-- styling empty html tags-->
+        @*<b class="nav-left"></b>
         <b class="nav-right"></b>*@
-    <!-- end of styling empty html tags-->
-    <nav>
-        <ul class="nav-list">
-            <li class="nav-list-item"><a asp-page="/Index">Home</a></li>
-            <li class="nav-list-item"><a asp-page="/About">About</a></li>
-            @if (User.HasClaim(claim => claim.Type == DefinedUserClaimTypes.Role && claim.Value == DefinedRoles.Admin))
-            {
-                <li class="nav-list-item"><a asp-page="/CreateLessons">Create Lessons</a></li>
-            }
-        </ul>
-        <partial name="_LoginPartial" />
-    </nav>
-    @*<partial name="_CookieConsentPartial" />*@
+        <!-- end of styling empty html tags-->
+        <nav>
+            <ul class="nav-list">
+                <li class="nav-list-item "><a class="main-font-color" asp-page="/Index">Home</a></li>
+                <li class="nav-list-item "><a class="main-font-color" asp-page="/About">About</a></li>
+                @if (User.HasClaim(claim => claim.Type == DefinedUserClaimTypes.Role && claim.Value == DefinedRoles.Admin))
+                {
+                    <li class="nav-list-item "><a class="main-font-color" asp-page="/CreateLessons">Create Lessons</a></li>
+                }
+            </ul>
+            <partial name="_LoginPartial" />
+        </nav>
+        @*<partial name="_CookieConsentPartial" />*@
 
-    <main class="box-main">
-        @RenderBody()
-    </main>
-    <footer>
-        <p>&copy; 2019 - ImageFlashCards</p>
-    </footer>
-    <aside class="box-left" style="background-color: rgb(8, 127, 148);">c </aside>
-    <aside class="box-right" style="background-color: rgb(83, 121, 83);"> a </aside>
-    <b class="nav-left"></b>
-    <b class="nav-right"></b>
+        <main class="box-main">
+            @RenderBody()
+        </main>
+        <footer>
+            <p class="main-font-color">&copy; 2019 - ImageFlashCards</p>
+        </footer>
+        @*<aside class="box-left" style="background-color: rgb(8, 127, 148);">c </aside>
+        <aside class="box-right" style="background-color: rgb(83, 121, 83);"> a </aside>*@
+        @*<b class="nav-left"></b>
+        <b class="nav-right"></b>*@
 
-    <environment include="Development">
-        @*<script src="~/lib/jquery/dist/jquery.js"></script>
+        <environment include="Development">
+            @*<script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
-        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+            @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+        </environment>
+        <environment exclude="Development">
+            @*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>*@
+        </environment>
 
-    @RenderSection("Scripts", required: false)
-</body>
+        @RenderSection("Scripts", required: false)
+    </body>
 </html>

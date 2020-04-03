@@ -7,11 +7,11 @@
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav-list">
-            <li class="nav-list-item">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            <li class="nav-list-item main-font-color">
+                <a class="main-font-color" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
-            <li class="nav-list-item">
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+            <li class="nav-list-item ">
+                <button type="submit" class="main-font-color">Logout</button>
             </li>
         </ul>
     </form>
@@ -19,7 +19,7 @@
 else
 {
     <ul class="nav-list">
-        <li class="nav-list-item"><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-        <li class="nav-list-item"><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+        <li class="nav-list-item"><a class="main-font-color" asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+        <li class="nav-list-item"><a class="main-font-color" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
     </ul>
 }

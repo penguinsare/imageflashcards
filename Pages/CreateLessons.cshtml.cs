@@ -49,7 +49,9 @@ namespace ImageFlashCards.Pages
         {
             if (lessonId > 0)
             {
-                Lesson = _context.Lessons.Include(lesson => lesson.Image).Include(lesson => lesson.Flashcards).FirstOrDefault(lesson => lesson.LessonId == lessonId);
+                //Lesson = _context.Lessons.Include(lesson => lesson.Image).Include(lesson => lesson.Flashcards).FirstOrDefault(lesson => lesson.LessonId == lessonId);
+                Lesson = _context.Lessons.FirstOrDefault(lesson => lesson.LessonId == lessonId);
+
             }
         }
 
@@ -89,9 +91,11 @@ namespace ImageFlashCards.Pages
         {
             if (lessonId > 0)
             {
+                //Lesson = await _context.Lessons
+                //    .Include(lesson => lesson.Image)
+                //    .Include(lesson => lesson.Flashcards)
+                //    .FirstOrDefaultAsync(lesson => lesson.LessonId == lessonId);
                 Lesson = await _context.Lessons
-                    .Include(lesson => lesson.Image)
-                    .Include(lesson => lesson.Flashcards)
                     .FirstOrDefaultAsync(lesson => lesson.LessonId == lessonId);
                 if (Lesson != null && Lesson.Flashcards?.Count <= 5)
                 {
@@ -116,19 +120,20 @@ namespace ImageFlashCards.Pages
                     {
                         //foreach (var fc in Flashcards)
                         //{
-                            //if (fc.FlashcardId > 0)
-                            //{
-                            //    var currentFlashcard = _context.Flashcards.FirstOrDefault(f => f.FlashcardId == fc.FlashcardId);
-                            //    currentFlashcard.ForeignWord = fc.ForeignWord;
-                            //    currentFlashcard.NativeWord = fc.NativeWord;
-                            //    currentFlashcard.XCoordinate = fc.XCoordinate;
-                            //    currentFlashcard.YCoordinate = fc.YCoordinate;
-                            //    _context.Entry<Flashcard>(currentFlashcard).State = EntityState.Modified;
-                            //}
-                            //else
-                            //{
-                                
-                        var lesson = await _context.Lessons.Include(l => l.Flashcards).FirstOrDefaultAsync(l => l.LessonId == lessonId);
+                        //if (fc.FlashcardId > 0)
+                        //{
+                        //    var currentFlashcard = _context.Flashcards.FirstOrDefault(f => f.FlashcardId == fc.FlashcardId);
+                        //    currentFlashcard.ForeignWord = fc.ForeignWord;
+                        //    currentFlashcard.NativeWord = fc.NativeWord;
+                        //    currentFlashcard.XCoordinate = fc.XCoordinate;
+                        //    currentFlashcard.YCoordinate = fc.YCoordinate;
+                        //    _context.Entry<Flashcard>(currentFlashcard).State = EntityState.Modified;
+                        //}
+                        //else
+                        //{
+
+                        //var lesson = await _context.Lessons.Include(l => l.Flashcards).FirstOrDefaultAsync(l => l.LessonId == lessonId);
+                        var lesson = await _context.Lessons.FirstOrDefaultAsync(l => l.LessonId == lessonId);
 
                         if (lesson != null)
                         {

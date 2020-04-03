@@ -37,7 +37,9 @@ namespace ImageFlashCards
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
+                options
+                .UseLazyLoadingProxies()
+                .UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

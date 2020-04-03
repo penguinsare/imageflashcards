@@ -9,9 +9,9 @@ namespace ImageFlashCards.Models
     {
         public int LessonId { get; set; }
         public string Title { get; set; }
-        public IList<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
+        public virtual IList<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
 
         public int LessonImageId { get; set; }
-        public LessonImage Image { get; set; }
+        public virtual LessonImage Image { get; set; }
     }
 }

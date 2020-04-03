@@ -8,27 +8,26 @@
 }
 
 <div class="flashcard top-left"
-     @*onmouseover="onFcHover(this)"*@
-     @*onmouseover="expandFlashcard(this)"
-     onmouseout="contractFlashcard(this)"*@
      data-xdistance="@Model.XCoordinate"
      data-ydistance="@Model.YCoordinate">
-    <button class="turn-fc-button" 
-            onclick="showForeignWord(this)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="15 0 315 300">
-            <path id="lineAB"
-                  d="M100 100 Q250 70 250 150 Q250 230 100 200 M100 200 L140 160 M100 200 L140 240"
-                  stroke="white"
-                  stroke-width="28" fill="none" stroke-linecap="round" />
-        </svg>
-    </button>
-    <span id="first-native-word" class="native-word">@Model.NativeWord</span>
-    <span class="foreign-word-span">
-        
-        <input class="foreign-word-input" size="2" type="text" placeholder="write word in German">
-        <span class="foreign-word">@Model.ForeignWord</span>
-        <button class="check-button"
-                onclick="checkFc(this)">
+    
+    <span class="native-word fc-solved fc-unsolved">@Model.NativeWord</span>
+    <div class="foreign-word-container">
+        <input style="width:100%;" class="foreign-word-input fc-unsolved" size="2" type="text">
+        <span style="width:0;" class="foreign-word fc-solved">@Model.ForeignWord</span>
+    </div>
+    
+    <div class="flashcard-buttons-panel fc-unsolved">
+        <button class="turn-fc-button flashcard-button fc-unsolved">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="15 0 315 300">
+                <path id="lineAB"
+                      d="M100 100 Q250 70 250 150 Q250 230 100 200 M100 200 L140 160 M100 200 L140 240"
+                      stroke="white"
+                      stroke-width="28" fill="none" stroke-linecap="round" />
+            </svg>
+        </button>
+
+        <button class="check-button flashcard-button fc-unsolved">
             <svg class="svg-check-button" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 300 210">
                 <line x1="120" y1="40" x2="190" y2="106" stroke="white"
                       stroke-width="28" stroke-linecap="round" />
@@ -39,8 +38,8 @@
                 <line x1="50" y1="173" x2="120" y2="106" stroke="white"
                       stroke-width="28" stroke-linecap="round" />
             </svg>
-        </button>  
-    </span>
+        </button>
+    </div>
 
 </div>
 

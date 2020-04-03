@@ -10,7 +10,7 @@ namespace ImageFlashCards.Models
         public int FlashcardId { get; set; }
         public string NativeWord { get; set; }
         public string ForeignWord{ get; set; }
-        public int XCoordinate { get; set; }
-        public int YCoordinate { get; set; }
+        public float XCoordinate { get; set; }
+        public float YCoordinate { get; set; }
     }
 }
