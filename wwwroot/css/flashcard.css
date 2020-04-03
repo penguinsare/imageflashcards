@@ -5,7 +5,6 @@
     flex-direction: column;
     flex-wrap: wrap;
     /*flex-flow: column nowrap;*/
-
     /*width: 200px;
     height: 3.5em;*/
     width: 1em;
@@ -24,7 +23,8 @@
     -ms-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -khtml-box-sizing: border-box;
-    overflow:hidden;
+    overflow: hidden;
+    /*transform: rotateX(90deg);*/
 }
 
 .flashcard-added {
@@ -102,7 +102,7 @@
     border-color: black;
     border-width: 1px;
     border-right-width: 0;*/
-    padding: 1px 2px 1px 3px;
+    /*padding: 1px 2px 1px 3px;*/
 }
 /* .foreign-word-input:hover {
   left: 50px;  
@@ -131,7 +131,9 @@
 
 .foreign-word-input:focus {
     outline: none;
-    
+    /*box-shadow: 0 0 10px black;*/
+    /*outline: 1px dashed red;*/
+    background-color: rgb(240, 240, 240);
 }
 
 .turn-fc-button {
@@ -199,12 +201,18 @@
     /*position: relative;*/
     /*margin: 3px 3px 3px 3px;*/
     /*background-color: rgb(240, 209, 181);*/
-    margin: auto;
+    margin: 0 !important;
     border-radius: 5px;
-    padding: 1px 2px 1px 3px;
+    /*padding: 1px 2px 1px 3px;*/
+    text-align: center;
+    /*width:100%;*/
 }
 
 .foreign-word-container {
-    height:2em;
+    height: 1.5em;
     
+}
+
+.done {
+    background-color: rgb(125, 184, 141);
 }

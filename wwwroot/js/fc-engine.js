@@ -1,12 +1,34 @@
-﻿var flashcardsOnTheScreen = 0;
+﻿
 var mouseIsDown = false;
-var draggedFlashcardId = -1;
-var draggedFlashcardJQueryObject = null;
-var flashcardCanBeDragged = false;
-var cursorToFlashcardOffsetX = 0;
-var cursorToFlashcardOffsetY = 0;
+var flashcardList = null;
+var boxImage = null;
+var lessonImageNaturalWidth = 0;
+var lessonImageNaturalHeight = 0;
+
 
 $(function () {
+    flashcardList = $('.flashcard');
+    boxImage = $('.box-image');
+    lessonImageNaturalWidth = $('#lesson-image').get(0).naturalWidth;
+    lessonImageNaturalHeight = $('#lesson-image').get(0).naturalHeight;
+
+
+
+    $(window).bind('resize', function () {
+        flashcardList.each(function () {
+            let fc = $(this);
+            //console.log(boxImage);
+            //console.log('boxImage.width()', boxImage.width());
+            //console.log('lessonImage.get(0).naturalWidth ', lessonImage.get(0).naturalWidth );
+            let resizeCoeffX = boxImage.width() / lessonImageNaturalWidth;
+            let resizeCoeffY = boxImage.height() / lessonImageNaturalHeight;
+            //console.log('resizeCoeffX', resizeCoeffX);
+            //console.log('resizeCoeffY', resizeCoeffY);
+
+            fc.css('left', (resizeCoeffX * fc.data('xdistance')) + 'px');
+            fc.css('top', (resizeCoeffY * fc.data('ydistance')) + 'px');
+        });
+    });
     $('.flashcard').each(function () {
         let myThis = $(this);
 
@@ -21,13 +43,6 @@ $(function () {
     $('.flashcard').bind('click', function () {
         let myThis = $(this);
         console.log('clicked!!!!!   ', myThis);
-        //myThis.animate({
-        //    height: '50px',
-        //    width: '200px'
-        //}, 200);
-        ////myThis.find('input').show();
-        //myThis.find('input').delay(500).fadeIn(300);
-
     });
     $('.check-button').bind('click', function () {
         let myThis = $(this);
@@ -37,27 +52,62 @@ $(function () {
         let foreignWord = flashcard.find('.foreign-word');
         console.log('.foreign-word-input', input);
         console.log('.foreign-word', foreignWord);
-        input.animate({
-            width: '30%',
-            'margin-left': '35%',
-            'margin-right': '35%'
-        }, 300, 'swing', () => {
-                let decide = 1;
-                if (decide === 1) {
-                    input.hide()
-                } else {
 
-                }                
-            });
-        //input.fadeOut(300);
-        foreignWord.show();
-        //foreignWord.css('width', '100%');
-        //foreignWord.slideDown(1300, () => foreignWord.css('display', 'inline-block'));
-        //myThis.closest('.flashcard').hide();
+        console.log('word-input', input.val());
+        console.log('word-p', foreignWord.text());
+        if (flashcard.hasClass('flipped')) {
+            return;
+        }
+        if (input.val() === foreignWord.text()) {
+            if (!flashcard.hasClass('done')) {
+                flashcard.addClass('done');
+            }
+            input.animate({
+                width: '80%',
+                'margin-left': '10%',
+                'margin-right': '10%'
+            }, 150, 'linear', () => {
+                input.hide(0, () => foreignWord.show())
+                });
+            flashcard.find('.flashcard-buttons-panel').hide();
+        } else {
+            input.animate({
+                width: '80%',
+                'margin-left': '10%',
+                'margin-right': '10%'
+            }, 100, 'linear', () => {
+                    input.animate({
+                        width: '100%',
+                        'color': 'white',
+                        'margin-left': '0',
+                        'margin-right': '0'
+                    }, 200, 'linear');  
+            });            
+        }        
+    });
+    $('.turn-fc-button').bind('click', function () {
+        let myThis = $(this);
+        let flashcard = myThis.closest('.flashcard');
+        let input = flashcard.find('.foreign-word-input');
+        let foreignWord = flashcard.find('.foreign-word');
+       
+        if (flashcard.hasClass('done') || flashcard.hasClass('flipped')) {
+            return;
+        }
+
+        flashcard.addClass('flipped');
+        flashcard.find('.flashcard-buttons-panel').hide();
+        input.animate({
+            width: '80%',
+            'margin-left': '10%',
+            'margin-right': '10%'
+        }, 150, 'linear', () => {
+            input.hide(0, () => foreignWord.show())
+        });
     });
 });
 
-const minFcWidth = 150;
+//const minFcWidth = 150;
 
 // set max data length of the flash card depending on the words length
 //(function () {  
