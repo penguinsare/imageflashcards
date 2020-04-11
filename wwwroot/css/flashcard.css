@@ -4,46 +4,61 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    /*flex-flow: column nowrap;*/
-    /*width: 200px;
-    height: 3.5em;*/
-    width: 1em;
-    height: 1.4em;
+    /*width: 1em;*/
+    /*height: 1.4em;*/
     z-index: 2;
-    -webkit-transition: width 0.3s, height 0.7s;
-    transition: width 0.3s, height 0.7s;
+    /*-webkit-transition: width 0.3s, height 0.7s;*/
+    /*transition: width 0.3s, height 0.7s;*/
+    /*transition: height 0.7s, width 0.3s, left 0.3s;*/
+    transition-timing-function: ease;
     padding: 10px;
     white-space: nowrap;
-    /*border-style: solid;
-    border-width: 4px;*/
     box-shadow: 5px 5px 5px black;
     border: 1px solid white;
     box-sizing: border-box;
+    border-radius: 1em;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -khtml-box-sizing: border-box;
-    overflow: hidden;
+    /*overflow: hidden;*/
     /*transform: rotateX(90deg);*/
 }
 
-.flashcard-added {
-    position: absolute; 
-    width: 10em; 
-    height: 5em; 
-    display: block; 
-    flex-flow: column;
-    background-color: orange; 
-    border-top-right-radius: 10%; 
-    border-bottom-right-radius: 10%; 
-    border-bottom-left-radius: 40%; 
-    top: 54.2074px; 
-    left: 101.506px; 
-    transition: width 0.3s ease 0s, height 0.7s ease 0s; 
-    z-index: 2; 
-    cursor: grab; 
-    padding: 0.5em;
+.flashcard-toggle {
+    position: absolute;
+    background-color: rgb(245, 132, 26);
+    width: 1.8em;
+    height: 1.8em;
+    border: 1px solid white;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    z-index: 12;
 }
+
+.flashcard-toggle-rotate-90 {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 0;
+}
+
+        .flashcard-added {
+            position: absolute;
+            width: 10em;
+            height: 5em;
+            display: block;
+            flex-flow: column;
+            background-color: orange;
+            border-top-right-radius: 10%;
+            border-bottom-right-radius: 10%;
+            border-bottom-left-radius: 40%;
+            top: 54.2074px;
+            left: 101.506px;
+            transition: width 0.3s ease 0s, height 0.7s ease 0s;
+            z-index: 2;
+            cursor: grab;
+            padding: 0.5em;
+        }
 
 .top-left {
     border-top-left-radius: 0;

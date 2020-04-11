@@ -69,12 +69,13 @@
                         data-ydistance="@Model.Lesson.Flashcards[index].YCoordinate"
                         data-flashcard-id="@Model.Lesson.Flashcards[index].FlashcardId">
                         <div class="flashcard-content" style="display: flex; flex-flow: column; width: 100%; height: 100%;">
+                            
+                            <input class="word" type="text" asp-for="@Model.NativeWord" value="@Model.Lesson.Flashcards[index]?.WordPair?.EnglishWord?.Text" />
+                            <input class="word" type="text" asp-for="@Model.ForeignWord" value="@Model.Lesson.Flashcards[index]?.WordPair?.SpanishWord?.Text" />
 
-                            <input class="word" type="text" asp-for="@Model.Flashcard.NativeWord" value="@Model.Lesson.Flashcards[index].NativeWord" />
-                            <input class="word" type="text" asp-for="@Model.Flashcard.ForeignWord" value="@Model.Lesson.Flashcards[index].ForeignWord" />
-                            <input class="xdistance" type="hidden" asp-for="@Model.Flashcard.XCoordinate" value="@Model.Lesson.Flashcards[index].XCoordinate" />
-                            <input class="ydistance" type="hidden" asp-for="@Model.Flashcard.YCoordinate" value="@Model.Lesson.Flashcards[index].YCoordinate" />
-                            <input type="hidden" asp-for="@Model.Flashcard.FlashcardId" value="@Model.Lesson.Flashcards[index].FlashcardId" />
+                            <input class="xdistance" type="hidden" asp-for="@Model.XCoordinate" value="@Model.Lesson.Flashcards[index].XCoordinate" />
+                            <input class="ydistance" type="hidden" asp-for="@Model.YCoordinate" value="@Model.Lesson.Flashcards[index].YCoordinate" />
+                            <input type="hidden" asp-for="@Model.FlashcardId" value="@Model.Lesson.Flashcards[index].FlashcardId" />
                             <input type="submit" value="Save" />
                         </div>
                     </div>

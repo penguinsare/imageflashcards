@@ -5,44 +5,70 @@ var boxImage = null;
 var lessonImageNaturalWidth = 0;
 var lessonImageNaturalHeight = 0;
 
+var fcToggleSize = 0;
+var fcToggleOffset = 0;
+
+var classHidden = 'hidden';
+var classStateUnsolved = 'unsolved';
+var classStateSolved = 'solved';
+var classStateTurned = 'turned';
 
 $(function () {
     flashcardList = $('.flashcard');
     boxImage = $('.box-image');
     lessonImageNaturalWidth = $('#lesson-image').get(0).naturalWidth;
     lessonImageNaturalHeight = $('#lesson-image').get(0).naturalHeight;
+  
+    //fcToggleSize = $($('.flashcard-toggle').width()).toPx();
+    fcToggleOffset = $(1.8).toPx();
 
+    flashcardList.each(function () {
+        fc = $(this);
+        //if (!fc.hasClass(classStateUnsolved) &&
+        //    !fc.hasClass(classStateSolved) &&
+        //    !fc.hasClass(classStateTurned)) {
+        //    fc.addClass(classStateUnsolved);
+        //    //fc.addClass(classHidden);
+        //}
+        fc.addClass(classStateUnsolved);
+        positionFlashcard(fc);
+        showFlashcard(fc);
+    });
 
+    //positionFlashcards(); 
+    //$('.flashcard').each(function () {
+    //    let myThis = $(this);
+
+    //    myThis.css('left', myThis.data('xdistance') + 'px');
+    //    myThis.css('top', myThis.data('ydistance') + 'px');
+    //    myThis.css('height', 'auto');
+    //    myThis.css('width', '200px');
+    //    myThis.find('.unsolved').show();
+    //    //myThis.find('.fc-solved').hide();
+    //    //myThis.find('.fc-unsolved').show();
+    //});
+    
 
     $(window).bind('resize', function () {
         flashcardList.each(function () {
-            let fc = $(this);
-            //console.log(boxImage);
-            //console.log('boxImage.width()', boxImage.width());
-            //console.log('lessonImage.get(0).naturalWidth ', lessonImage.get(0).naturalWidth );
-            let resizeCoeffX = boxImage.width() / lessonImageNaturalWidth;
-            let resizeCoeffY = boxImage.height() / lessonImageNaturalHeight;
-            //console.log('resizeCoeffX', resizeCoeffX);
-            //console.log('resizeCoeffY', resizeCoeffY);
-
-            fc.css('left', (resizeCoeffX * fc.data('xdistance')) + 'px');
-            fc.css('top', (resizeCoeffY * fc.data('ydistance')) + 'px');
+            fc = $(this);           
+            positionFlashcard(fc);
         });
-    });
-    $('.flashcard').each(function () {
-        let myThis = $(this);
 
-        myThis.css('left', myThis.data('xdistance') + 'px');
-        myThis.css('top', myThis.data('ydistance') + 'px');
-        myThis.css('height', 'auto');
-        myThis.css('width', '200px');
-        myThis.find('.fc-solved').hide();
-        myThis.find('.fc-unsolved').show();
+    });
+    
+    $('.flashcard-toggle').bind('click', function () {
+        let myThis = $(this);
+        toggleFlashcard(myThis.next());
+        //myThis.toggleClass('flashcard-toggle-rotate-90');
+        //myThis.next().toggle(300);
+        
     });
 
-    $('.flashcard').bind('click', function () {
-        let myThis = $(this);
-        console.log('clicked!!!!!   ', myThis);
+    $('.flashcard').bind('resize', function () {
+        fc = $(this);
+        console.log('flashcard resize:', fc);
+        positionFlashcard(fc);
     });
     $('.check-button').bind('click', function () {
         let myThis = $(this);
@@ -106,6 +132,114 @@ $(function () {
         });
     });
 });
+
+positionFlashcard = function (fc) {    
+        //let fc = $(this);
+        let fcToggle = fc.prev();
+
+        
+        //console.log('resizeCoeffX = ' + boxImage.width() + ' / ' + lessonImageNaturalWidth + ' = ' + (boxImage.width() / lessonImageNaturalWidth));
+        //console.log('resizeCoeffY = ' + boxImage.height() + ' / ' + lessonImageNaturalHeight + ' = ' + (boxImage.height() / lessonImageNaturalHeight));
+
+        let resizeCoeffX = boxImage.width() / lessonImageNaturalWidth;
+        let resizeCoeffY = boxImage.height() / lessonImageNaturalHeight;
+
+        let fcOriginalXPositionResized = resizeCoeffX * fc.data('xdistance');
+        let fcOriginalYPositionResized = resizeCoeffY * fc.data('ydistance');
+        let rightOffsetOutsideOfImageBox = function () {
+            //console.log('fc:', fc);
+            let offset = boxImage.width() - (fcOriginalXPositionResized + fc.outerWidth());
+
+            return offset < 0 ? (offset - 10) : 0;
+        }
+        fcToggle.css('left', fcOriginalXPositionResized + 'px');
+        fcToggle.css('top', fcOriginalYPositionResized + 'px');
+        fc.css('left', fcOriginalXPositionResized + rightOffsetOutsideOfImageBox() + 'px');
+        fc.css('top', fcOriginalYPositionResized + $(1).toPx() + 'px');
+        
+    
+}
+
+toggleFlashcard = function (fc) {
+    if (fc.hasClass(classHidden)) {
+        showFlashcard(fc);
+        
+        fc.removeClass(classHidden);
+    } else {
+        //console.log('fcToggleSize', fcToggleSize);
+        //fc.animate({ width: fcToggleSize + 'px' },300);
+        fc.css('width', fcToggleSize + 'px');
+        fc.css('height', fcToggleSize + 'px');
+
+        hideFlashcard(fc);
+        fc.addClass(classHidden);
+    }
+}
+
+showFlashcard = function (fc) {
+    //fc.show();
+    console.log('fc: ', fc);
+    fc.css('height', 'auto');
+    fc.css('display', 'flex');
+
+    let leftOffsetLocal = (boxImage.width() / lessonImageNaturalWidth) * fc.data('xdistance');
+    console.log(boxImage.width());
+    console.log(lessonImageNaturalWidth);
+    console.log(fc.data('xdistance'));
+
+    console.log('leftOffsetLocal', leftOffsetLocal);
+    fc.css('left', leftOffsetLocal + 'px');
+
+    fc.animate({
+        width: '200px',
+        left: offsetFlashcardLeft(200, fc.data('xdistance'), boxImage.width(), lessonImageNaturalWidth)
+
+    }, 120);
+    //fc.show(0, () => {
+    //    fc.animate({
+    //        width: '200px',
+    //        left: offsetFlashcardLeft(200, fc.data('xdistance'), boxImage.width(), lessonImageNaturalWidth)
+    //    }, 100);
+    //});
+    
+    
+    if (fc.hasClass(classStateUnsolved)) {
+        fc.find('.unsolved').show();
+    } else if (fc.hasClass(classStateSolved)) {
+        fc.find('.solved').show();
+    } else if (fc.hasClass(classStateTurned)) {
+        fc.find('.turned').show();
+    } else {
+        fc.addClass(classStateUnsolved);
+    }
+}
+
+hideFlashcard = function (fc) {
+    fc.hide();
+
+}
+
+offsetFlashcardLeft = function (flashcardWidth, flashcardXDistance, boxImageWidth, lessonImageWidth) {
+    let resizeCoeffX = boxImageWidth / lessonImageWidth;
+    //let resizeCoeffY = boxImage.height() / lessonImageNaturalHeight;
+
+    let fcOriginalXPositionResized = resizeCoeffX * flashcardXDistance;
+    //let fcOriginalYPositionResized = resizeCoeffY * fc.data('ydistance
+    let newLeft;
+    if (boxImageWidth > flashcardWidth) {
+        let offset = boxImageWidth - (fcOriginalXPositionResized + flashcardWidth);
+        if (offset >= 0) {
+            newLeft = fcOriginalXPositionResized;
+        } else {
+            newLeft = fcOriginalXPositionResized - Math.abs(offset);
+        }
+    } else {
+        
+        newLeft = 0; 
+    }
+    
+    return newLeft;
+}
 
 //const minFcWidth = 150;
 

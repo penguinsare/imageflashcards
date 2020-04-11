@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="~/css/image-flashcards-main.css" />
         <link rel="stylesheet" href="~/css/flashcard.css" />
         <link rel="stylesheet" href="~/css/lesson-controls.css" />
+        <link rel="stylesheet" href="~/css/consent.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -21,11 +23,11 @@
     @RenderSection("Styles", false)
 </head>
 @*<body class="wrapper" onload="whenBodyLoads()">*@
-    <body class="wrapper" >
+<body class="wrapper">
 
 
 
-        @* <nav class="navbar navbar-inverse navbar-fixed-top">
+    @* <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">*
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -46,41 +48,42 @@
                 </div>
             </div>
         </nav> *@
-        <!-- styling empty html tags-->
-        @*<b class="nav-left"></b>
+    <!-- styling empty html tags-->
+    @*<b class="nav-left"></b>
         <b class="nav-right"></b>*@
-        <!-- end of styling empty html tags-->
-        <nav>
-            <ul class="nav-list">
-                <li class="nav-list-item "><a class="main-font-color" asp-page="/Index">Home</a></li>
-                <li class="nav-list-item "><a class="main-font-color" asp-page="/About">About</a></li>
-                @if (User.HasClaim(claim => claim.Type == DefinedUserClaimTypes.Role && claim.Value == DefinedRoles.Admin))
-                {
-                    <li class="nav-list-item "><a class="main-font-color" asp-page="/CreateLessons">Create Lessons</a></li>
-                }
-            </ul>
-            <partial name="_LoginPartial" />
-        </nav>
-        @*<partial name="_CookieConsentPartial" />*@
+    <!-- end of styling empty html tags-->
+    <partial name="_CookieConsentPartial" />
+    <nav>
+        <ul class="nav-list">
+            <li class="nav-list-item "><a class="main-font-color" asp-page="/Index">Home</a></li>
+            <li class="nav-list-item "><a class="main-font-color" asp-page="/About">About</a></li>
+            @if (User.HasClaim(claim => claim.Type == DefinedUserClaimTypes.Role && claim.Value == DefinedRoles.Admin))
+            {
+                <li class="nav-list-item "><a class="main-font-color" asp-page="/CreateLessons">Create Lessons</a></li>
+            }
+        </ul>
+        <partial name="_LoginPartial" />
+    </nav>
 
-        <main class="box-main">
-            @RenderBody()
-        </main>
-        <footer>
-            <p class="main-font-color">&copy; 2019 - ImageFlashCards</p>
-        </footer>
-        @*<aside class="box-left" style="background-color: rgb(8, 127, 148);">c </aside>
+
+    <main class="box-main">
+        @RenderBody()
+    </main>
+    <footer>
+        <p class="main-font-color">&copy; 2019 - ImageFlashCards</p>
+    </footer>
+    @*<aside class="box-left" style="background-color: rgb(8, 127, 148);">c </aside>
         <aside class="box-right" style="background-color: rgb(83, 121, 83);"> a </aside>*@
-        @*<b class="nav-left"></b>
+    @*<b class="nav-left"></b>
         <b class="nav-right"></b>*@
 
-        <environment include="Development">
-            @*<script src="~/lib/jquery/dist/jquery.js"></script>
+    <environment include="Development">
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
-            @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-        </environment>
-        <environment exclude="Development">
-            @*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    </environment>
+    <environment exclude="Development">
+        @*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
                     asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                     asp-fallback-test="window.jQuery"
                     crossorigin="anonymous"
@@ -93,8 +96,8 @@
                     integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
             </script>
             <script src="~/js/site.min.js" asp-append-version="true"></script>*@
-        </environment>
+    </environment>
 
-        @RenderSection("Scripts", required: false)
-    </body>
+    @RenderSection("Scripts", required: false)
+</body>
 </html>

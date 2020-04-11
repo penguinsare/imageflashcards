@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImageFlashCards.Data;
 using ImageFlashCards.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,20 @@ namespace ImageFlashCards.Pages
 
         public async Task OnGetAsync(int lessonId)
         {
+            string language = "";
+            if (!Request.Cookies.TryGetValue("lang", out language))
+            {
+                Response.Cookies.Append("lang", "en_es", new CookieOptions()
+                {
+                    Expires = DateTime.UtcNow.AddYears(1),
+                    Path = "/"
+                });
+            }
+            //else
+            //{
+
+            //}
+
             if (lessonId > 0)
             {
                 var currAndNext = await _context.Lessons

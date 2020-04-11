@@ -36,9 +36,15 @@ namespace ImageFlashCards.Pages
         public Lesson Lesson { get; set; }
 
         [BindProperty]
-        public Flashcard Flashcard {get;set;}
-
-
+        public string NativeWord {get;set;}
+        [BindProperty]
+        public string ForeignWord { get; set; }
+        [BindProperty]
+        public double XCoordinate { get; set; }
+        [BindProperty]
+        public double YCoordinate { get; set; }
+        [BindProperty]
+        public int FlashcardId { get; set; }
 
         public void OnGet()
         {
@@ -96,10 +102,20 @@ namespace ImageFlashCards.Pages
                 //    .Include(lesson => lesson.Flashcards)
                 //    .FirstOrDefaultAsync(lesson => lesson.LessonId == lessonId);
                 Lesson = await _context.Lessons
+                    .Include(l => l.Flashcards)
+                    .ThenInclude(fc => fc.WordPair)
+                    
                     .FirstOrDefaultAsync(lesson => lesson.LessonId == lessonId);
                 if (Lesson != null && Lesson.Flashcards?.Count <= 5)
                 {
-                    Lesson.Flashcards.Add(new Flashcard());
+                    string language = "";
+                    var newFlashcard = new Flashcard();
+                    if (Request.Cookies.TryGetValue("lang", out language))
+                    {
+                        newFlashcard.SetLanguagePair(language);
+                    }
+                    
+                    Lesson.Flashcards.Add(newFlashcard);
                 }
             }
             
@@ -116,52 +132,69 @@ namespace ImageFlashCards.Pages
             {
                 try
                 {
-                    if (Flashcard != null )
+                    if (IsNewFlashcardAvailable() && lessonId > 0)
                     {
-                        //foreach (var fc in Flashcards)
-                        //{
-                        //if (fc.FlashcardId > 0)
-                        //{
-                        //    var currentFlashcard = _context.Flashcards.FirstOrDefault(f => f.FlashcardId == fc.FlashcardId);
-                        //    currentFlashcard.ForeignWord = fc.ForeignWord;
-                        //    currentFlashcard.NativeWord = fc.NativeWord;
-                        //    currentFlashcard.XCoordinate = fc.XCoordinate;
-                        //    currentFlashcard.YCoordinate = fc.YCoordinate;
-                        //    _context.Entry<Flashcard>(currentFlashcard).State = EntityState.Modified;
-                        //}
-                        //else
-                        //{
-
-                        //var lesson = await _context.Lessons.Include(l => l.Flashcards).FirstOrDefaultAsync(l => l.LessonId == lessonId);
                         var lesson = await _context.Lessons.FirstOrDefaultAsync(l => l.LessonId == lessonId);
+                        if (lesson == null)
+                            return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
 
-                        if (lesson != null)
-                        {
-                            if (Flashcard.FlashcardId > 0)
-                            {
-                                var flashcardForEdit = lesson.Flashcards.FirstOrDefault(fc => fc.FlashcardId == Flashcard.FlashcardId);
-                                flashcardForEdit.ForeignWord = Flashcard.ForeignWord;
-                                flashcardForEdit.NativeWord = Flashcard.NativeWord;
-                                flashcardForEdit.XCoordinate = Flashcard.XCoordinate;
-                                flashcardForEdit.YCoordinate = Flashcard.YCoordinate;
-                               
-                            }
-                            else if (Flashcard.FlashcardId == 0)
-                            {                                
-                                lesson.Flashcards.Add(Flashcard);
-                            }                                                            
-                        }
-                    }
-                                
-                            //}
-                            
+                        //var NativeWordFromDatabase = await _context.EnglishWords.FirstOrDefaultAsync(w => w.WordId == NativeWord);
+                        //var ForeignWordFromDatabase = await _context.SpanishWords.FirstOrDefaultAsync(w => w.WordId == ForeignWord);
+                        //if (NativeWordFromDatabase == null || ForeignWordFromDatabase == null)
+                        //    return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
+                        //string cookieValue = "";
+                        //if (Request.Cookies.TryGetValue("lang", out cookieValue))
+                        //{
+                        //    switch
                         //}
-                    await _context.SaveChangesAsync();
-                    
-                   
+                        var wordPair = await _context.WordPairs.FirstOrDefaultAsync(wp => wp.EnglishWord.Text == NativeWord);
+                        if (wordPair == null)
+                            return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
 
+                        //if (FlashcardId < 0)
+                        //    return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
+
+                        if (FlashcardId <= 0 && lesson.Flashcards.Count >= 5)
+                            return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
+
+
+                        //var wordPair = _context.WordPairs.FirstOrDefault(
+                        //    wp => wp.ForeignWordId == ForeignWordFromDatabase.WordId &&
+                        //            wp.NativeWordId == NativeWordFromDatabase.WordId);
+
+                        //if (wordPair == null)
+                        //{
+                        //    wordPair = new WordPair
+                        //    {
+                        //        NativeWord = NativeWordFromDatabase,
+                        //        ForeignWord = ForeignWordFromDatabase
+                        //    };
+                        //    _context.WordPairs.Add(wordPair);
+                        //}
+
+                        if (FlashcardId > 0)
+                        {
+                            var flashcard = lesson.Flashcards.FirstOrDefault(fc => fc.FlashcardId == FlashcardId);
+                            flashcard.WordPair = wordPair;
+                            //flashcardForEdit.WordPair.NativeWordId = NativeWord;
+                            flashcard.XCoordinate = XCoordinate;
+                            flashcard.YCoordinate = YCoordinate;
+                            _context.Entry(flashcard).State = EntityState.Modified;
+                        }
+                        else if (FlashcardId <= 0 && lesson.Flashcards.Count < 5)
+                        {
+                            var flashcard = new Flashcard()
+                            {
+                                WordPair = wordPair,
+                                XCoordinate = XCoordinate,
+                                YCoordinate = YCoordinate
+                            };
+                            _context.Flashcards.Add(flashcard);                        
+                            lesson.Flashcards.Add(flashcard);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
                     return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
-                    //return Page();
                 }
                 catch (Exception ex)
                 {
@@ -175,6 +208,21 @@ namespace ImageFlashCards.Pages
             }
 
 
+        }
+
+        public bool IsNewFlashcardAvailable()
+        {
+            if (!String.IsNullOrEmpty(NativeWord) &&
+                !String.IsNullOrEmpty(ForeignWord) &&
+                XCoordinate >= 0 &&
+                YCoordinate >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

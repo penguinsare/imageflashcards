@@ -7,39 +7,42 @@
     <link rel="stylesheet" href="~/css/flashcard.css" />
 }
 
-<div class="flashcard top-left"
-     data-xdistance="@Model.XCoordinate"
-     data-ydistance="@Model.YCoordinate">
-    
-    <span class="native-word fc-solved fc-unsolved">@Model.NativeWord</span>
-    <div class="foreign-word-container">
-        <input style="width:100%;" class="foreign-word-input fc-unsolved" size="2" type="text">
-        <p class="foreign-word fc-solved">@Model.ForeignWord</p>
+
+<button class="flashcard-toggle"></button>
+<div class="flashcard"
+        data-xdistance="@Model.XCoordinate"
+        data-ydistance="@Model.YCoordinate">
+
+    <span class="native-word solved unsolved turned">@Model?.WordPair?.EnglishWord?.Text</span>
+    <div class="foreign-word-container solved unsolved turned">
+        <input style="width:100%;" class="foreign-word-input unsolved" size="2" type="text">
+        <p class="foreign-word solved turned">@Model?.WordPair?.SpanishWord?.Text</p>
     </div>
-    
-    <div class="flashcard-buttons-panel fc-unsolved">
-        <button class="turn-fc-button flashcard-button fc-unsolved">
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="15 0 315 300">
-                <path id="lineAB"
-                      d="M100 100 Q250 70 250 150 Q250 230 100 200 M100 200 L140 160 M100 200 L140 240"
-                      stroke="white"
-                      stroke-width="28" fill="none" stroke-linecap="round" />
+
+    <div class="flashcard-buttons-panel unsolved">
+        <button class="turn-fc-button flashcard-button unsolved">
+            <svg class="unsolved" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="15 0 315 300">
+                <path class="unsolved" id="lineAB"
+                        d="M100 100 Q250 70 250 150 Q250 230 100 200 M100 200 L140 160 M100 200 L140 240"
+                        stroke="white"
+                        stroke-width="28" fill="none" stroke-linecap="round" />
             </svg>
         </button>
 
-        <button class="check-button flashcard-button fc-unsolved">
-            <svg class="svg-check-button" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 300 210">
-                <line x1="120" y1="40" x2="190" y2="106" stroke="white"
-                      stroke-width="28" stroke-linecap="round" />
-                <line x1="120" y1="173" x2="190" y2="106" stroke="white"
-                      stroke-width="28" stroke-linecap="round" />
-                <line x1="50" y1="40" x2="120" y2="106" stroke="white"
-                      stroke-width="28" stroke-linecap="round" />
-                <line x1="50" y1="173" x2="120" y2="106" stroke="white"
-                      stroke-width="28" stroke-linecap="round" />
+        <button class="check-button flashcard-button unsolved">
+            <svg class="svg-check-button unsolved" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 300 210">
+                <line class="unsolved" x1="120" y1="40" x2="190" y2="106" stroke="white"
+                        stroke-width="28" stroke-linecap="round" />
+                <line class="unsolved" x1="120" y1="173" x2="190" y2="106" stroke="white"
+                        stroke-width="28" stroke-linecap="round" />
+                <line class="unsolved" x1="50" y1="40" x2="120" y2="106" stroke="white"
+                        stroke-width="28" stroke-linecap="round" />
+                <line class="unsolved" x1="50" y1="173" x2="120" y2="106" stroke="white"
+                        stroke-width="28" stroke-linecap="round" />
             </svg>
         </button>
     </div>
 
 </div>
+
 

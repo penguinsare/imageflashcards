@@ -1,0 +1,36 @@
+﻿#cookieConsent {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    padding-top: 1em;
+    margin: 0 !important;
+    height: 1px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition-duration: 1s;
+    transition-property: height;
+    /*transition-delay: 2s;*/
+    background-color: rgb(255, 184, 92);
+}
+
+.cookie-consent-flex-item {
+    margin-top: 10px;
+    margin-left: 1em;
+}
+
+.cookie-consent-divider {
+    height: 5px;
+    /*margin: 0 20%;*/
+    /*width: 80%;*/
+    background-color: black;
+    border: none;
+    /*width: 100%;*/
+}
+
+.hidden {
+    display: none !important;
+}
+
+
