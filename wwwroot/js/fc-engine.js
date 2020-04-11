@@ -85,8 +85,9 @@ $(function () {
             return;
         }
         if (input.val() === foreignWord.text()) {
-            if (!flashcard.hasClass('done')) {
-                flashcard.addClass('done');
+            if (!flashcard.hasClass(classStateSolved)) {
+                //flashcard.addClass(classStateSolved);
+                changeStateFlashcard(flashcard, classStateSolved);
             }
             input.animate({
                 width: '80%',
@@ -116,12 +117,13 @@ $(function () {
         let flashcard = myThis.closest('.flashcard');
         let input = flashcard.find('.foreign-word-input');
         let foreignWord = flashcard.find('.foreign-word');
-       
-        if (flashcard.hasClass('done') || flashcard.hasClass('flipped')) {
+
+        if (flashcard.hasClass(classStateSolved) || flashcard.hasClass(classStateTurned)) {
             return;
         }
 
-        flashcard.addClass('flipped');
+        changeStateFlashcard(flashcard, classStateTurned);
+        //flashcard.addClass(classStateTurned);
         flashcard.find('.flashcard-buttons-panel').hide();
         input.animate({
             width: '80%',
@@ -166,8 +168,6 @@ toggleFlashcard = function (fc) {
         
         fc.removeClass(classHidden);
     } else {
-        //console.log('fcToggleSize', fcToggleSize);
-        //fc.animate({ width: fcToggleSize + 'px' },300);
         fc.css('width', fcToggleSize + 'px');
         fc.css('height', fcToggleSize + 'px');
 
@@ -214,6 +214,26 @@ showFlashcard = function (fc) {
     }
 }
 
+changeStateFlashcard = function (fc, state) {
+    if (state === classStateSolved) {
+        fc.addClass(classStateSolved);
+        fc.removeClass(classStateTurned);
+        fc.removeClass(classStateUnsolved);
+        fc.css('background-color', 'rgb(0, 189, 91)');
+        fc.prev().css('background-color', 'rgb(0, 189, 91)');
+    } else if (state === classStateTurned) {
+        fc.addClass(classStateTurned);
+        fc.removeClass(classStateSolved);
+        fc.removeClass(classStateUnsolved);
+        fc.css('background-color', 'rgb(255, 136, 136)');
+        fc.prev().css('background-color', 'rgb(255, 136, 136)');
+    } else if (state === classStateUnsolved) {
+        fc.addClass(classStateUnsolved);
+        fc.removeClass(classStateSolved);
+        fc.removeClass(classStateTurned);
+    }
+}
+
 hideFlashcard = function (fc) {
     fc.hide();
 
@@ -231,7 +251,7 @@ offsetFlashcardLeft = function (flashcardWidth, flashcardXDistance, boxImageWidt
         if (offset >= 0) {
             newLeft = fcOriginalXPositionResized;
         } else {
-            newLeft = fcOriginalXPositionResized - Math.abs(offset);
+            newLeft = fcOriginalXPositionResized - Math.abs(offset) - 10;
         }
     } else {
         
