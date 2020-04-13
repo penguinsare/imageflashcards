@@ -1,11 +1,11 @@
 ﻿.flashcard {
     position: absolute;
     background-color: rgb(245, 132, 26);
-    display: flex;
+    display: none;
     flex-direction: column;
     flex-wrap: wrap;
-    /*width: 1em;*/
-    /*height: 1.4em;*/
+    width: 1px;
+    height: 1px;
     z-index: 2;
     /*-webkit-transition: width 0.3s, height 0.7s;*/
     /*transition: width 0.3s, height 0.7s;*/
@@ -37,7 +37,7 @@
     z-index: 12;
 }
 
-.flashcard-toggle-rotate-90 {
+.flashcard-toggle-right-edge {
     border-top-left-radius: 15px;
     border-top-right-radius: 0;
 }
