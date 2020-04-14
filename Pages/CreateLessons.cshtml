@@ -24,6 +24,7 @@
         {
             <form class="control-panel-item" method="post" asp-page-handler="UploadImage" enctype="multipart/form-data">
                 <input type="file" asp-for="Upload" accept="image/jpeg" />
+                <input type="text" asp-for="AuthorUrl" value="" placeholder="Link to photographer" />
                 <input type="submit" />
             </form>
         }
@@ -77,6 +78,9 @@
                             <input class="ydistance" type="hidden" asp-for="@Model.YCoordinate" value="@Model.Lesson.Flashcards[index].YCoordinate" />
                             <input type="hidden" asp-for="@Model.FlashcardId" value="@Model.Lesson.Flashcards[index].FlashcardId" />
                             <input type="submit" value="Save" />
+                            <a asp-page="CreateLessons" asp-page-handler="DeleteFlashcard" 
+                               asp-route-flashcardid="@Model.Lesson.Flashcards[index].FlashcardId"
+                               asp-route-lessonid="@Model.Lesson.LessonId">Delete</a>
                         </div>
                     </div>
                 </form>

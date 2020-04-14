@@ -53,17 +53,20 @@
         <b class="nav-right"></b>*@
     <!-- end of styling empty html tags-->
     <partial name="_CookieConsentPartial" />
-    <nav>
-        <ul class="nav-list">
-            <li class="nav-list-item "><a class="main-font-color" asp-page="/Index">Home</a></li>
-            <li class="nav-list-item "><a class="main-font-color" asp-page="/About">About</a></li>
-            @if (User.HasClaim(claim => claim.Type == DefinedUserClaimTypes.Role && claim.Value == DefinedRoles.Admin))
-            {
-                <li class="nav-list-item "><a class="main-font-color" asp-page="/CreateLessons">Create Lessons</a></li>
-            }
-        </ul>
-        <partial name="_LoginPartial" />
-    </nav>
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <li class="nav-list-item "><a class="main-font-color" asp-page="/Index">Home</a></li>
+                <li class="nav-list-item "><a class="main-font-color" asp-page="/About">About</a></li>
+                @if (User.HasClaim(claim => claim.Type == DefinedUserClaimTypes.Role && claim.Value == DefinedRoles.Admin))
+                {
+                    <li class="nav-list-item "><a class="main-font-color" asp-page="/CreateLessons">Create Lessons</a></li>
+                }
+            </ul>
+            <partial name="_LoginPartial" />
+        </nav>
+    </header>
+    
 
 
     <main class="box-main">

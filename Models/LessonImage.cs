@@ -14,6 +14,7 @@ namespace ImageFlashCards.Models
         public string FileName{ get; set; }
         public string FileNameAndExtension { get; set; }
         public string ImageTitle { get; set; }
+        public string AuthorUrl { get; set; }
 
     }
 }

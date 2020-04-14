@@ -25,6 +25,7 @@ html {
 body {
     margin: 0;
     background-color: #353632;
+    position:relative;
 }
 
 /**
@@ -33,6 +34,7 @@ body {
 
 main {
     display: block;
+    padding-bottom: 2.5em;
 }
 
 /**
@@ -416,6 +418,17 @@ html {
     /*overflow: hidden !important;*/
 }
 
+header{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+footer{
+    position:absolute;
+    bottom:0;
+    display:flex;
+}
 .main-font-color {
     color: rgb(245, 132, 26);
 }
@@ -434,6 +447,7 @@ nav {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    max-width: 1000px;
 }
 
     .nav-list {

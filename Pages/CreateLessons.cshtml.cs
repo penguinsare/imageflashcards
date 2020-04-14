@@ -31,6 +31,8 @@ namespace ImageFlashCards.Pages
 
         [BindProperty]
         public IFormFile Upload { get; set; }
+        [BindProperty]
+        public string AuthorUrl { get; set; }
 
         [BindProperty]
         public Lesson Lesson { get; set; }
@@ -71,6 +73,7 @@ namespace ImageFlashCards.Pages
                 {
                     
                     var newImage = await _imageHandler.SaveImage(Upload);
+                    newImage.AuthorUrl = AuthorUrl;
                     _context.LessonImages.Add(newImage);
                     await _context.SaveChangesAsync();
                     Lesson = new Lesson() { Image = newImage };
@@ -138,39 +141,12 @@ namespace ImageFlashCards.Pages
                         if (lesson == null)
                             return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
 
-                        //var NativeWordFromDatabase = await _context.EnglishWords.FirstOrDefaultAsync(w => w.WordId == NativeWord);
-                        //var ForeignWordFromDatabase = await _context.SpanishWords.FirstOrDefaultAsync(w => w.WordId == ForeignWord);
-                        //if (NativeWordFromDatabase == null || ForeignWordFromDatabase == null)
-                        //    return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
-                        //string cookieValue = "";
-                        //if (Request.Cookies.TryGetValue("lang", out cookieValue))
-                        //{
-                        //    switch
-                        //}
                         var wordPair = await _context.WordPairs.FirstOrDefaultAsync(wp => wp.EnglishWord.Text == NativeWord);
                         if (wordPair == null)
                             return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
 
-                        //if (FlashcardId < 0)
-                        //    return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
-
                         if (FlashcardId <= 0 && lesson.Flashcards.Count >= 5)
                             return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
-
-
-                        //var wordPair = _context.WordPairs.FirstOrDefault(
-                        //    wp => wp.ForeignWordId == ForeignWordFromDatabase.WordId &&
-                        //            wp.NativeWordId == NativeWordFromDatabase.WordId);
-
-                        //if (wordPair == null)
-                        //{
-                        //    wordPair = new WordPair
-                        //    {
-                        //        NativeWord = NativeWordFromDatabase,
-                        //        ForeignWord = ForeignWordFromDatabase
-                        //    };
-                        //    _context.WordPairs.Add(wordPair);
-                        //}
 
                         if (FlashcardId > 0)
                         {
@@ -205,6 +181,42 @@ namespace ImageFlashCards.Pages
             else
             {
                 return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
+            }
+
+
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnGetDeleteFlashcardAsync(int flashcardId, int lessonId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (flashcardId > 0 && lessonId > 0)
+                    {
+                        Lesson = await _context.Lessons.FirstOrDefaultAsync(l => l.LessonId == lessonId);
+                        if (Lesson == null)
+                            return RedirectToPage("CreateLessons");
+                        var flashcard = await _context.Flashcards.FirstOrDefaultAsync(fc => fc.FlashcardId == flashcardId);
+                        if (flashcard != null)
+                        {
+                            _context.Flashcards.Remove(flashcard);
+                            await _context.SaveChangesAsync();
+                        }
+                    }                   
+                    return RedirectToPage("CreateLessons", "LoadLesson", new { LessonId = Lesson.LessonId });
+
+                }
+                catch (Exception ex)
+                {
+                    //put log
+                    return RedirectToPage("CreateLessons");
+                }
+            }
+            else
+            {
+                return RedirectToPage("CreateLessons");
             }
 
 
