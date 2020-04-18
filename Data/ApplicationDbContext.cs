@@ -15,6 +15,8 @@ namespace ImageFlashCards.Data
 
         }
 
+        public DbSet<Feedback> Feedbacks { get; set; }
+
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Flashcard> Flashcards { get; set; }
         public DbSet<LessonImage> LessonImages { get; set; }

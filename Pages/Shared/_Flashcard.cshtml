@@ -11,7 +11,8 @@
 <button class="flashcard-toggle"></button>
 <div class="flashcard"
         data-xdistance="@Model.XCoordinate"
-        data-ydistance="@Model.YCoordinate">
+        data-ydistance="@Model.YCoordinate"
+     data-flashcard-id="@Model.FlashcardId">
 
     <span class="native-word solved unsolved turned">@Model?.WordPair?.EnglishWord?.Text</span>
     <div class="foreign-word-container solved unsolved turned">

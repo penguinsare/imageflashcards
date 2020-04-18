@@ -421,8 +421,9 @@ html {
 
 header{
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-content: center;
+    /*align-content: center;*/
 }
 
 .site-width {
@@ -451,12 +452,63 @@ footer {
     color: black;
 }
 
-.nav-menu {
-    width: 100%;
+
+#subscribe-section {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    min-height: 2em;
+    height: auto;
+    background-color: black;
+    width: 100%;
 }
+
+#subscribe-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    margin: auto;
+    padding: 1em;
+}
+
+#subscribe-form > label{
+    color: white !important;
+    display: flex;
+    align-self: center;
+}
+
+
+
+#subscribe-form > input[type=email] {
+    margin: 0 0.3em;
+    border-radius: 5px;
+    border: 0;
+    padding: 5px;
+}
+
+
+
+#subscribe-button {
+    color: black;
+    background-color: #9cc926;
+    border: 2px solid #9cc926;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    #subscribe-button:hover {
+        background-color: black;
+        color: #9cc926;
+    }
+
+
+
+    .nav-menu {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 0 auto;
+    }
 
     .nav-list {
         display: flex;
@@ -521,8 +573,7 @@ footer {
 
 
 .feedback-form {
-    
-   
+    overflow: visible !important;
     z-index: 22;
     position: fixed;
     bottom: -400px;
@@ -536,12 +587,14 @@ footer {
         margin-left: auto;
         cursor: pointer;
         border-radius: 0.5em;
-        border: 3px solid #e8e8e8;
+        border: 3px solid #d4d4d4;
         width: 6em;
         height: 2em;
+        outline:none;
     }
-        .feedback-form input[type="submit"]:hover {
+        .feedback-form input[type="submit"]:hover, .feedback-form input[type="submit"]:focus {
             background-color: #e8e8e8;
+            border: 3px solid #919191;
         }
     .feedback-form div {
         background-color: white;
@@ -555,19 +608,27 @@ footer {
     border-radius: 5px;
     border: 2px solid #d4d4d4;
     padding: 5px;
+    outline:none;
 }
+
+    .feedback-section-items:focus, .feedback-section-items:hover {
+        border: 2px solid #919191;
+    }
 
 .feedback-characters-counter {
     border: 0;
-    margin-top: 0;
+    /*margin-top: 0;*/
     color: #a3a3a3;
     font-style: italic;
     height: 1em;
+
+    margin: 0 1em 0 1em;
+    padding: 5px;
 }
 
 textarea.feedback-section-items {
     resize: none;
-    height: 3em;
+    height: 4.5em;
 }
 
 
@@ -591,7 +652,6 @@ textarea.feedback-section-items {
         height: 3em;
         width: 5em;
         background-repeat: no-repeat;
-        
         /*background-attachment: fixed;*/
         padding: 0;
         background-position: center;
@@ -669,3 +729,14 @@ textarea.feedback-section-items {
         z-index: 4;
     }
 }*/
+@media (max-width: 650px) {
+    #subscribe-form {
+        /*display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: stretch;
+        margin: auto;
+        padding: 1em;*/
+        flex-wrap: wrap;
+    }
+}

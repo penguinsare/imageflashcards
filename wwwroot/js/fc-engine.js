@@ -104,6 +104,15 @@ $(function () {
                 input.hide(0, () => foreignWord.show())
                 });
             flashcard.find('.flashcard-buttons-panel').hide();
+            let url = window.location.origin +
+                '/api/FlashcardsSolved/' +
+                flashcard.data('flashcard-id') +
+                '/solved';
+            $.ajax({
+                type: "POST",
+                url: url
+                
+            });
         } else {
             input.animate({
                 width: '80%',
