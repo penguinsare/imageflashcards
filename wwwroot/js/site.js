@@ -22,8 +22,9 @@ $(function () {
         e.preventDefault();
         let feedbackTitle = $(this);
         let feedbackForm = feedbackTitle.parent('.feedback-form');
-        console.log('css bottom', feedbackForm.css('bottom'));
+        //console.log('css bottom', feedbackForm.css('bottom'));
         if (feedbackForm.css('bottom') === '-1px') {
+            feedbackForm.css('z-index', '10');
             feedbackForm.animate({
                 bottom: -feedbackForm.data('bottomHideOffset') + 'px',
                 'width': (feedbackForm.width() / 2) + 'px',
@@ -35,6 +36,7 @@ $(function () {
 
         } else {
             calculateFeedbackMessageChars();
+            feedbackForm.css('z-index', '100');
             feedbackForm.animate({
                 bottom: '-1px',
                 'width': (feedbackForm.width() * 2) + 'px',
@@ -48,7 +50,7 @@ $(function () {
 
     
     $('textarea.feedback-section-items').bind('change textInput input', function () {
-        console.log('key pressed in message area');
+        //console.log('key pressed in message area');
         calculateFeedbackMessageChars();
     });
 
@@ -73,8 +75,8 @@ $(function () {
         
         formItems.css('position', 'relative');
 
-        console.log('$(this).offset().top - 50', $(this).offset().top - 50);
-        console.log('$(this)', $(this));
+        //console.log('$(this).offset().top - 50', $(this).offset().top - 50);
+        //console.log('$(this)', $(this));
         formItems
             .animate({
                 'top': ($(this).offset().top - 15 - feedbackSection.offset().top) + 'px'
@@ -98,22 +100,38 @@ $(function () {
                 }                
             });
     });
+
+    // SUBSCRIBE BAR
+    $('#subscribe-disable-button').bind('click', function (e) {
+        e.preventDefault();
+        if (window.confirm('Do you want to remove the subscribe bar permanently?')) {
+            $(this).closest('#subscribe-section').hide();
+            let expDate = new Date();
+            newYear = expDate.getFullYear() + 2;
+            expDate.setFullYear(expDate.getFullYear() + 2);
+            //console.log('full year ', expDate.getFullYear());
+            //console.log('subscribe-bar=no; expires=' + expDate.toUTCString() + '; path=/;');
+            document.cookie = 'subscribe-bar=no; expires=' + expDate.toUTCString() + '; path=/;';
+        }        
+    });
+
+    
 })
 
 adjustFeedbackButton = function () {
     let leftDistance = footerContainer.offset().left + footerContainer.width() - feedbackSection.width();
-    console.log('footerContainer.offset().left', footerContainer.offset().left);
-    console.log('footerContainer.width()', footerContainer.width());
-    console.log('feedbackSection.width()', feedbackSection.width());
+    //console.log('footerContainer.offset().left', footerContainer.offset().left);
+    //console.log('footerContainer.width()', footerContainer.width());
+    //console.log('feedbackSection.width()', feedbackSection.width());
     feedbackSection.css('left', leftDistance);
-    console.log('leftDistance', leftDistance);
-    console.log('feedbackSection', feedbackSection);
+    //console.log('leftDistance', leftDistance);
+    //console.log('feedbackSection', feedbackSection);
 }
 
 calculateFeedbackMessageChars = function () {
     let messageTextarea = $('textarea.feedback-section-items');
     let charactersDisplay = messageTextarea.next('.feedback-characters-counter');
-    console.log('charactersDisplay', charactersDisplay);
+    //console.log('charactersDisplay', charactersDisplay);
     charactersDisplay
         .text('Characters used ' +
         messageTextarea.val().length +

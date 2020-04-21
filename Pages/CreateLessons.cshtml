@@ -29,18 +29,6 @@
             </form>
         }
 
-
-        <button class="control-panel-item"><span>&lt;&lt; Previous Lesson</span></button>
-
-
-        <label class="control-panel-item" for="test" style="margin: auto;">
-            <label class="switch">
-                <input id="test" type="checkbox">
-                <span class="slider round"></span>
-            </label>
-            <span>Study</span>
-        </label>
-        <button class="control-panel-item"><span>Next Lesson >></span></button>
     </div>
 
 
@@ -96,7 +84,9 @@
 
 @section scripts {
     <environment include="Development">
-        <script src="~/js/jquery-3.4.1.slim.min.js" asp-append-version="true"></script>
+        @*<script src="~/js/jquery-3.4.1.slim.min.js" asp-append-version="true"></script>*@
+        <script src="~/js/fc-engine.js" asp-append-version="true"></script>
+
         <script src="~/js/fc-engine-edit.js" asp-append-version="true"></script>
         @*<script src="~/js/fc-engine.js" asp-append-version="true"></script>*@
 

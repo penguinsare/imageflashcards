@@ -6,7 +6,7 @@
     flex-wrap: wrap;
     width: 1px;
     height: 1px;
-    z-index: 2;
+    z-index: 30;
     /*-webkit-transition: width 0.3s, height 0.7s;*/
     /*transition: width 0.3s, height 0.7s;*/
     /*transition: height 0.7s, width 0.3s, left 0.3s;*/
@@ -34,7 +34,7 @@
     border-top-right-radius: 15px;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    z-index: 12;
+    z-index: 31;
 }
 
 .flashcard-toggle-right-edge {

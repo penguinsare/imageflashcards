@@ -5,52 +5,10 @@
 }
 
     <div class="main-box">
-        <div class="panel">
-            <ul class="panel-list">
-                @if (Model.PreviousLessonId > 0)
-                {
-                <li class="panel-list-item panel-list-item-button">
-                    <a class="remove-text-decoration color-black" asp-page="Index" asp-route-lessonid="@Model.PreviousLessonId">
-                        <span class="panel-list-item-content">
-                            &lt;&lt; Previous Lesson
-                        </span>
-                    </a>
-                </li>
-                }
-                <li class="panel-list-item">
-                    <div class="control-panel-divider"><div />
-                </li>
-                <li class="panel-list-item panel-list-item-button">
-                    <label  for="expand-all" style="width:100%; display:flex;align-items:center;justify-content:center;">
-                        @*<div style="width:100%;">*@
-                            <label class="switch">
-                                <input id="expand-all" type="checkbox">
-                                <span class="slider round main-theme-background-color"></span>
-                            </label>
-                            <span class="panel-list-item-content" style="margin-left: 0.3em;">Study</span>
-                        @*</div>*@
-                    </label>
-                </li>
-                <li class="panel-list-item">
-                    <div class="control-panel-divider"><div />
-                </li>
-                @if (Model.NextLessonId > 0)
-                {
 
-                    <li class="panel-list-item panel-list-item-button">
-                        <a class="remove-text-decoration color-black" asp-page="Index" asp-route-lessonid="@Model.NextLessonId">
-                            <span class="panel-list-item-content">
-                                Next Lesson >>
-                            </span>
-                        </a>
-                    </li>
-                }
 
-            </ul>
-        </div>
 
-       
-        <div id="box-image" class="box-image" style="background-color: gray;">
+        <section id="box-image" class="box-image">
             @if (Model.Lesson != null)
             {
                 if (Model.Lesson?.Image != null)
@@ -65,14 +23,85 @@
             @if (!String.IsNullOrEmpty(Model.Lesson?.Image?.AuthorUrl))
             {
                 <div style="display:flex;justify-content:flex-end;">
-                    <a target="_blank" href="@Model.Lesson?.Image?.AuthorUrl" style="font-size:0.6em;border-radius:1px;padding:0.2em;position:relative;right:0;top:-0.4em;background:lightblue;text-decoration:none;">Photograph by</a>
+                    <a target="_blank" href="@Model.Lesson?.Image?.AuthorUrl" style="font-size:0.6em;border-radius:1px;padding:0.2em;position:relative;right:0;top:-1em;background:lightblue;text-decoration:none;">Photograph by</a>
                 </div>
             }
+            else
+            {
+                <div style="height: 0.9em;"></div>
+            }
 
-            <div class="inflatable-div" style="width:100%;height:50px;position:relative;">
+            @*<div class="inflatable-div" style="width:100%;height:50px;position:relative;">
+
+            </div>*@
+
+
+        </section>
+
+        <section id="next-back-button-panel-section" >
+            <div id="next-back-button-panel" class="site-width">
+                @if (Model.PreviousLessonId > 0)
+                {
+                    <a class="remove-text-decoration color-black next-back-button" asp-page="Index" asp-route-lessonid="@Model.PreviousLessonId">
+                        <span>&lt;&lt;</span>
+                    </a>
+                }
+                else
+                {
+                    <div class="remove-text-decoration
+                       color-black next-back-button
+                       next-back-button-disabled">
+                        <span>&lt;&lt;</span>
+                    </div>
+                }
+
+                @if (Model.NextLessonId > 0)
+                {
+                    <a class="remove-text-decoration color-black next-back-button" asp-page="Index" asp-route-lessonid="@Model.NextLessonId">
+                        <span>>></span>
+                    </a>
+                }
+                else
+                {
+                    @*<a class="remove-text-decoration
+               color-black next-back-button
+               next-back-button-disabled" asp-page="Index" asp-route-lessonid="@Model.NextLessonId">
+                <span>>></span>
+            </a>*@
+                    <div class="remove-text-decoration
+                       color-black next-back-button
+                       next-back-button-disabled" >
+                        <span>>></span>
+                    </div>
+                }
 
             </div>
-
+        </section>
+        <div class="panel">
+            <ul class="panel-list">
+                <li class="panel-list-item panel-list-item-button">
+                    <label for="expand-all" style="width:100%; display:flex;align-items:center;justify-content:center;">
+                        @*<div style="width:100%;">*@
+                        <label class="switch">
+                            <input id="autoscale" type="checkbox">
+                            <span class="slider round main-theme-background-color"></span>
+                        </label>
+                        <span class="panel-list-item-content" style="margin-left: 0.3em;">Auto Scale</span>
+                        @*</div>*@
+                    </label>
+                </li>
+                <li class="panel-list-item panel-list-item-button">
+                    <label for="expand-all" style="width:100%; display:flex;align-items:center;justify-content:center;">
+                        @*<div style="width:100%;">*@
+                        <label class="switch">
+                            <input id="expand-all" type="checkbox">
+                            <span class="slider round main-theme-background-color"></span>
+                        </label>
+                        <span class="panel-list-item-content" style="margin-left: 0.3em;">Expand All</span>
+                        @*</div>*@
+                    </label>
+                </li>
+            </ul>
         </div>
     </div>
 

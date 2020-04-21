@@ -4,7 +4,8 @@ var flashcardList = null;
 var boxImage = null;
 var lessonImageNaturalWidth = 0;
 var lessonImageNaturalHeight = 0;
-var inflatableDiv = null;
+var viewportWidth = 0;
+var viewportHeight = 0;
 
 var fcToggleSize = 0;
 var fcToggleOffset = 0;
@@ -18,10 +19,20 @@ $(function () {
    
     flashcardList = $('.flashcard');
     boxImage = $('.box-image');
-    inflatableDiv = $('.inflatable-div');
     lessonImageNaturalWidth = $('#lesson-image').get(0).naturalWidth;
     lessonImageNaturalHeight = $('#lesson-image').get(0).naturalHeight;
     fcToggleOffset = $(1.8).toPx();
+    //let elementNumber = 1;
+    //window.setTimeout(function () {
+    //    $('*').each(function () {
+    //        if ($(this).css('z-index') != 'auto') {
+    //            console.log(elementNumber + 'z-index', $(this).css('z-index'));
+    //            elementNumber++;
+    //        }
+    //    });
+    //}, 2000);
+    
+
 
     flashcardList.each(function () {
         let fc = $(this);
@@ -32,11 +43,68 @@ $(function () {
     });
 
     $(window).bind('resize', function () {
+        adjustLessonImage();
         flashcardList.each(function () {
             let fc = $(this);           
             positionFlashcard(fc);
         });
 
+    });
+
+    $('#lesson-image').one('load', function () {
+        //viewportWidth = $(window).width();
+        //viewportHeight = $(window).height();
+        //let mainBox = $('.main-box');
+        //let boxImage = mainBox.find('#box-image');
+        //let lessonImage = $(this);
+        //console.log('lessonImage.width() / lessonImage.height()', lessonImage.width() / lessonImage.height());
+        //console.log('viewportWidth', viewportWidth);
+        //console.log('viewportHeight', viewportHeight);
+
+        ////BIG TEST of dynamic image adjustment
+        //// if image natural dimensions are smaller than screen
+        //// or the scrren is portrait orientation
+        //if (lessonImage.width() <= viewportWidth ||
+        //    viewportWidth / viewportHeight < 1) {
+        //    mainBox.find('#box-image').css('height', 'auto');
+        //    mainBox.find('#lesson-image').css('width', '100%');
+        //    console.log('if ------');
+        //} else {
+        //    let scaleCoeff = lessonImage.width() / viewportWidth;
+        //    let visibleHeightOfImage = viewportHeight * scaleCoeff;
+        //    let imageScaledHeightToScreenRation = lessonImage.height() / visibleHeightOfImage;
+        //    if (imageScaledHeightToScreenRation > 1.5) {
+        //        mainBox.find('#box-image').css('height', '150vh');
+        //        mainBox.find('#lesson-image').css('width', 'auto');
+        //        mainBox.find('#lesson-image').css('height', 'calc(100% - 0.8em)');
+        //        console.log('else if ------');
+        //    } else {
+        //        mainBox.find('#box-image').css('height', 'auto');
+        //        mainBox.find('#lesson-image').css('width', '100%');
+        //        console.log('else else ------');
+        //    }
+        //}
+        
+
+        
+
+        ////if ((lessonImage.width() / lessonImage.height()) <= 1) {
+        ////    mainBox.find('#box-image').css('height', '100vh');
+        ////    mainBox.find('#lesson-image').css('width', 'auto');
+        ////} else {
+        ////    mainBox.find('#box-image').css('height', 'auto');
+        ////    mainBox.find('#lesson-image').css('width', '100%');
+        ////}
+        //flashcardList.each(function () {
+        //    let fc = $(this);
+        //    positionFlashcard(fc);
+        //});
+        adjustLessonImage();
+    }).each(function () {
+        if (this.complete) {
+            //$(this).load(); // For jQuery < 3.0 
+             $(this).trigger('load'); // For jQuery >= 3.0 
+        }
     });
 
     $('#expand-all').bind('click', function () {
@@ -51,6 +119,29 @@ $(function () {
         }
     });
 
+    $('#autoscale').bind('click', function () {
+        let mainBox = $('.main-box');
+        let boxImage = mainBox.find('#box-image');
+        let lessonImage = mainBox.find('#lesson-image');
+        //if ($(this).is(':checked')) {
+        //    //mainBox.css('height', '100vh');
+        //    //mainBox.find('#box-image').css('height', 'calc(100vh - 8em)');
+
+        //    mainBox.find('#box-image').css('height', '100vh');
+
+        //    mainBox.find('#lesson-image').css('width', 'auto');
+        //    //mainBox.find('#lesson-image').css('height', 'calc(100% - 0.8em)');
+        //} else {
+        //    mainBox.find('#box-image').css('height', 'auto');
+        //    mainBox.find('#lesson-image').css('width', '100%');
+        //    //mainBox.find('#lesson-image').css('height', 'auto');
+        //}
+        //flashcardList.each(function () {
+        //    let fc = $(this);
+        //    positionFlashcard(fc);
+        //});
+    });
+
     $('.flashcard-toggle').bind('click', function () {
         let myThis = $(this);
         toggleFlashcard(myThis.next());        
@@ -58,12 +149,12 @@ $(function () {
 
     $('.flashcard').bind('click', function () {
         flashcardList.each(function () {
-            $(this).css('z-index', 2);
-            $(this).prev().css('z-index', 3);
+            $(this).css('z-index', 30);
+            $(this).prev().css('z-index', 31);
         });
         let fc = $(this);
-        fc.css('z-index', 10);
-        fc.prev().css('z-index', 11);
+        fc.css('z-index', 40);
+        fc.prev().css('z-index', 41);
         //console.log('flashcard resize:', fc);
         //positionFlashcard(fc);        
     });
@@ -155,7 +246,7 @@ positionFlashcard = function (fc) {
     let fcToggle = fc.prev();
 
     let resizeCoeffX = boxImage.width() / lessonImageNaturalWidth;
-    let resizeCoeffY = (boxImage.height() - inflatableDiv.height()) / lessonImageNaturalHeight;
+    let resizeCoeffY = boxImage.height() / lessonImageNaturalHeight;
 
     if (resizeCoeffX > 1) {
         resizeCoeffX = 1;
@@ -175,34 +266,34 @@ positionFlashcard = function (fc) {
     if (fcToggleOffset <= 0) {
         fcToggle.addClass('flashcard-toggle-right-edge');
         fcToggleOffset = -fcToggle.outerWidth();
-        console.log('right-edge-offset:', fcToggleOffset);
-        console.log('fcToggle.width():', fcToggle.outerWidth());
+        //console.log('right-edge-offset:', fcToggleOffset);
+        //console.log('fcToggle.width():', fcToggle.outerWidth());
 
     }else {
         fcToggle.removeClass('flashcard-toggle-right-edge');
         fcToggleOffset = 0;
-        console.log('right-edge-offset:', fcToggleOffset);
+        //console.log('right-edge-offset:', fcToggleOffset);
 
     }
    
-    let bottomOffsetOutsideOfImageBox = function () {
-        let bottomOffset = (boxImage.outerHeight() + inflatableDiv.outerHeight()) - (fcOriginalYPositionResized + $(1).toPx() + 120);
-        if (bottomOffset <= 0) {
-            console.log('bottomOffset', bottomOffset);
+    //let bottomOffsetOutsideOfImageBox = function () {
+    //    let bottomOffset = (boxImage.outerHeight() + inflatableDiv.outerHeight()) - (fcOriginalYPositionResized + $(1).toPx() + 120);
+    //    if (bottomOffset <= 0) {
+    //        console.log('bottomOffset', bottomOffset);
             
-            return Math.abs(bottomOffset);
-        } else {
-            console.log('bottomOffset', 0);
-            return 0;
-        }
-    } 
-    inflatableDiv.css('height', bottomOffsetOutsideOfImageBox() + 'px');
+    //        return Math.abs(bottomOffset);
+    //    } else {
+    //        console.log('bottomOffset', 0);
+    //        return 0;
+    //    }
+    //} 
+    //inflatableDiv.css('height', bottomOffsetOutsideOfImageBox() + 'px');
 
     fcToggle.css('left', (fcOriginalXPositionResized + fcToggleOffset) + 'px');
     fcToggle.css('top', fcOriginalYPositionResized + 'px');
     fc.css('left', fcOriginalXPositionResized + rightOffsetOutsideOfImageBox() + 'px');
     fc.css('top', fcOriginalYPositionResized + $(1).toPx() + 'px');  
-    console.log('fcOriginalYPositionResized', fcOriginalYPositionResized);
+    //console.log('fcOriginalYPositionResized', fcOriginalYPositionResized);
 }
 
 toggleFlashcard = function (fc) {
@@ -285,4 +376,58 @@ offsetFlashcardLeft = function (flashcardWidth, flashcardXDistance, boxImageWidt
     
     return newLeft;
 }
-    
+
+adjustLessonImage = function () {
+    viewportWidth = $(window).width();
+    viewportHeight = $(window).height();
+    let mainBox = $('.main-box');
+    let boxImage = $('#box-image');
+    let lessonImage = $('#lesson-image');
+    console.log('lessonImage.width() / lessonImage.height()', lessonImage.width() / lessonImage.height());
+    console.log('viewportWidth', viewportWidth);
+    console.log('viewportHeight', viewportHeight);
+
+    //BIG TEST of dynamic image adjustment
+    // if image natural dimensions are smaller than screen
+    // or the scrren is portrait orientation
+    if (lessonImage[0].naturalWidth <= viewportWidth ||
+        viewportWidth / viewportHeight < 1) {
+        mainBox.find('#box-image').css('height', 'auto');
+        mainBox.find('#lesson-image').css('width', '100%');
+        console.log('if ------');
+    } else {
+        console.log('naturalWidth', lessonImage[0].naturalWidth)
+        console.log('viewportWidth', viewportWidth)
+        let scaleCoeff = lessonImage[0].naturalWidth / viewportWidth;
+        console.log('scaleCoeff = lessonImage[0].naturalWidth(' +
+            lessonImage[0].naturalWidth +
+            ') / viewportWidth(' +
+            viewportWidth +
+            ') = ', scaleCoeff);
+        let visibleHeightOfImage = viewportHeight * scaleCoeff;
+        console.log('visibleHeightOfImage = viewportHeight(' +
+            viewportHeight +
+            ') * scaleCoeff(' +
+            scaleCoeff +
+            ') = ', visibleHeightOfImage);
+        let imageScaledHeightToScreenRation = lessonImage[0].naturalHeight / visibleHeightOfImage;
+        console.log('lessonImage.height()', lessonImage.height());
+        console.log('lessonImage[0].naturalHeight', lessonImage[0].naturalHeight);
+        console.log('imageScaledHeightToScreenRation = ', imageScaledHeightToScreenRation);
+        if (imageScaledHeightToScreenRation > 1.2 ) {
+            mainBox.find('#box-image').css('height', '100vh');
+            mainBox.find('#lesson-image').css('width', 'auto');
+            mainBox.find('#lesson-image').css('height', 'calc(100% - 0.8em)');
+            console.log('else if ------');
+        } else {
+            mainBox.find('#box-image').css('height', 'auto');
+            mainBox.find('#lesson-image').css('width', '100%');
+            console.log('else else ------');
+        }
+    }
+
+    flashcardList.each(function () {
+        let fc = $(this);
+        positionFlashcard(fc);
+    });
+}

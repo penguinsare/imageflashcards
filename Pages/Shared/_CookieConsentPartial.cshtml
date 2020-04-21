@@ -7,47 +7,24 @@
 }
 
 @if (showBanner)
-{
-    <nav id="cookieConsent" role="alert">
-        <p class="cookie-consent-flex-item">Our Use of Cookies</p>
+{   <section id="cookie-consent-section">
+        <div id="cookieConsent" class="site-width">
+            <span class="cookie-consent-flex-item">
+                
+                    We use cookies for statistics and the correct functioning of our web application.
+                    Read our <a asp-page="privacy" target="_blank">Privacy Policy</a> for more information.
 
-        <p class="cookie-consent-flex-item">Necessary Cookies</p>
-        <div class="cookie-consent-divider"></div>
-        <p class="cookie-consent-flex-item">
-            We use cookies to save your study progress and authenticate you if you've signed up
-        </p>
-        <div class="cookie-consent-divider"></div>
-        <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">Accept</button>
-        @*<div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cookieConsent .navbar-collapse">
-                    <span class="sr-only">Toggle cookie consent banner</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <span class="navbar-brand"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>
-            </div>
-            <div class="collapse navbar-collapse">
-                <p class="navbar-text">
-                    Use this space to summarize your privacy and cookie use policy.
-                </p>
-                <div class="navbar-right">
-                    <a asp-page="/Privacy" class="btn btn-info navbar-btn">Learn More</a>
-                    <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">Accept</button>
-                </div>
-            </div>
-        </div>*@
-    </nav>
+
+                
+            </span>
+            <button id="cookie-accept-button" type="button" class="cookie-consent-flex-item" data-cookie-string="@cookieString">Accept</button>
+        </div>
+    </section>
     <script>
         (function () {
-            window.addEventListener('load', function () {
-                document.querySelector('#cookieConsent').style.height = '5em';
-            })
- 
             document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click", function (el) {
                 document.cookie = el.target.dataset.cookieString;
-                document.querySelector("#cookieConsent").classList.add("hidden");
+                document.querySelector("#cookie-consent-section").classList.add("hidden");
             }, false);
         })();
     </script>

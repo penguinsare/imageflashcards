@@ -24,7 +24,7 @@ html {
 
 body {
     margin: 0;
-    background-color: #353632;
+    /*background-color: #353632;*/
     position: relative;
     min-height: 100vh;
 }
@@ -408,10 +408,12 @@ nav {
 
 }*/
 html {
-    font-family: 'Roboto', sans-serif;
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: 'Nunito', sans-serif;
     touch-action: manipulation;
     top: 0;
     left: 0;
+    /*width: 500px;*/
     width: 100%;
     height: 100%;
     max-width: 100%;
@@ -428,8 +430,14 @@ header{
 
 .site-width {
     max-width: 1000px;
+    /*padding: 0 20px;*/
 }
-
+.site-section {
+    display: flex;
+    align-content: stretch;
+    justify-content: center;
+    width: 100%;
+}
 footer {
     position: absolute;
     bottom: 0;
@@ -440,7 +448,8 @@ footer {
     height: 2.5em;
 }
 .main-font-color {
-    color: rgb(245, 132, 26);
+    /*color: rgb(245, 132, 26);*/
+    color: #9cc926;
 }
 .main-theme-background-color {
     background-color: rgb(245, 132, 26);
@@ -455,6 +464,7 @@ footer {
 
 #subscribe-section {
     display: flex;
+    justify-content: center;
     min-height: 2em;
     height: auto;
     background-color: black;
@@ -465,12 +475,35 @@ footer {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-content: stretch;
-    margin: auto;
-    padding: 1em;
+    align-content: stretch;    
 }
 
-#subscribe-form > label{
+.subscribe-form-items {
+    margin: 0.3em;
+}
+label.subscribe-form-items {
+    margin-left: 0.6em;
+}
+
+#subscribe-disable-button {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    outline: none;
+}
+
+#subscribe-disable-button:hover {
+    border: 2px solid white;
+    
+}
+    #subscribe-disable-button:focus {
+        border: 2px solid white;
+    }
+
+
+#subscribe-form > label {
     color: white !important;
     display: flex;
     align-self: center;
@@ -479,25 +512,29 @@ footer {
 
 
 #subscribe-form > input[type=email] {
-    margin: 0 0.3em;
+    margin: 0.3em;
     border-radius: 5px;
     border: 0;
     padding: 5px;
+    outline:none;
 }
 
-
+    #subscribe-form > input[type=email]:focus {
+        background-color: #f5f5f5;
+    }
 
 #subscribe-button {
     color: black;
-    background-color: #9cc926;
-    border: 2px solid #9cc926;
+    background-color: #00DBFA;
+    border: 2px solid #00DBFA;
     border-radius: 5px;
     cursor: pointer;
+    outline: none;
 }
 
-    #subscribe-button:hover {
+    #subscribe-button:hover, #subscribe-button:focus {
         background-color: black;
-        color: #9cc926;
+        color: #00DBFA;
     }
 
 
@@ -546,35 +583,33 @@ footer {
 
 .copyright-span {
     margin-left:10px;
+    color: gray;
 }
 
 .main-box {
     display: flex;
     flex-direction: column;
-    
-    /*background-color: lightblue;*/
-    /*background-color: rgb(161, 202, 204);*/
-    background-color: rgb(121, 152, 153);
+    /*background-color: rgb(121, 152, 153);*/
 }
 .box-image {
     /*grid-area: main;*/
     position: relative;
-    z-index: 1;
-    /*min-width: 375px;
-    max-width: 1000px;*/
+    /*z-index: 1;*/
     margin-left: auto;
     margin-right: auto;
+    height: 100vh;
+    /*background-color: gray;*/
 }
 
     .box-image img {
-        width: 100%;
-        height: auto;
+        width: auto;
+        height: calc(100% - 0.8em);
     }
 
 
 .feedback-form {
     overflow: visible !important;
-    z-index: 22;
+    z-index: 10;
     position: fixed;
     bottom: -400px;
     width: 9em;
@@ -648,7 +683,8 @@ textarea.feedback-section-items {
 
     .feedback-title:before {
         content: '';
-        background-image: url(../frog_help22.png);
+        /*background-image: url(../frog_help22.png);*/
+        background-image: url(../frog_help22.svg);
         height: 3em;
         width: 5em;
         background-repeat: no-repeat;
@@ -730,13 +766,11 @@ textarea.feedback-section-items {
     }
 }*/
 @media (max-width: 650px) {
+
     #subscribe-form {
-        /*display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-content: stretch;
-        margin: auto;
-        padding: 1em;*/
+
         flex-wrap: wrap;
     }
+
+
 }
