@@ -390,8 +390,8 @@ adjustLessonImage = function () {
     //BIG TEST of dynamic image adjustment
     // if image natural dimensions are smaller than screen
     // or the scrren is portrait orientation
-    if (lessonImage[0].naturalWidth <= viewportWidth ||
-        viewportWidth / viewportHeight < 1) {
+    if ((lessonImage[0].naturalWidth <= viewportWidth ||
+        viewportWidth / viewportHeight < 1) && viewportWidth < 800) {
         mainBox.find('#box-image').css('height', 'auto');
         mainBox.find('#lesson-image').css('width', '100%');
         console.log('if ------');

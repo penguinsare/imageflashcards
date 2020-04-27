@@ -30,12 +30,6 @@
             {
                 <div style="height: 0.9em;"></div>
             }
-
-            @*<div class="inflatable-div" style="width:100%;height:50px;position:relative;">
-
-            </div>*@
-
-
         </section>
 
         <section id="next-back-button-panel-section" >
@@ -63,46 +57,36 @@
                 }
                 else
                 {
-                    @*<a class="remove-text-decoration
-               color-black next-back-button
-               next-back-button-disabled" asp-page="Index" asp-route-lessonid="@Model.NextLessonId">
-                <span>>></span>
-            </a>*@
                     <div class="remove-text-decoration
                        color-black next-back-button
                        next-back-button-disabled" >
                         <span>>></span>
                     </div>
                 }
-
             </div>
         </section>
-        <div class="panel">
+        @*<div class="panel">
             <ul class="panel-list">
                 <li class="panel-list-item panel-list-item-button">
                     <label for="expand-all" style="width:100%; display:flex;align-items:center;justify-content:center;">
-                        @*<div style="width:100%;">*@
                         <label class="switch">
                             <input id="autoscale" type="checkbox">
                             <span class="slider round main-theme-background-color"></span>
                         </label>
                         <span class="panel-list-item-content" style="margin-left: 0.3em;">Auto Scale</span>
-                        @*</div>*@
                     </label>
                 </li>
                 <li class="panel-list-item panel-list-item-button">
                     <label for="expand-all" style="width:100%; display:flex;align-items:center;justify-content:center;">
-                        @*<div style="width:100%;">*@
                         <label class="switch">
                             <input id="expand-all" type="checkbox">
                             <span class="slider round main-theme-background-color"></span>
                         </label>
-                        <span class="panel-list-item-content" style="margin-left: 0.3em;">Expand All</span>
-                        @*</div>*@
+                        <span class="panel-list-item-content" style="margin-left: 0.3em;">Expand All</span>                        
                     </label>
                 </li>
             </ul>
-        </div>
+        </div>*@
     </div>
 
         @section scripts {
@@ -111,15 +95,6 @@
 
             </environment>
             <environment exclude="Development">
-                @*<script type="text/javascript">alert('hello');</script>*@
-                <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.4.1.min.js"
-                        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                        asp-fallback-test="window.jQuery"
-                        crossorigin="anonymous"
-                        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-                </script>
-                <script src="~/js/fc-engine.js" asp-append-version="true"></script>
-
             </environment>
 
         }

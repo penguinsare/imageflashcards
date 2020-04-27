@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="~/css/lesson-controls.css" />
         <link rel="stylesheet" href="~/css/consent.css" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="stylesheet">
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -25,9 +25,40 @@
 </head>
 
 <body >
-
-    
     <header>
+        <nav class="nav-menu site-width">
+            <ul class="nav-list">
+                @*<li class="nav-list-item "><a class="main-font-color" asp-page="/Index">ImageFlashcards</a></li>*@
+                <li  class="nav-list-item "><span id="main-menu-button">
+                    ImageFlashcards<i class="menu-arrow"> </i>
+                        <div id="main-menu-expanded">
+                            <p style="width:100%;">Home</p>
+                            <div class="main-menu-expanded-section">
+                                <span>SignIn</span>
+                                <span class="join-button">Join</span>
+                            </div>  
+                            <p>My Stats</p>
+                            <p style="display:flex;text-wrap:none;">Create new ImageFlashcard</p>
+                        </div>
+                    </span></li>
+                <li class="nav-list-item "><a class="main-font-color" asp-page="/About">About</a></li>
+                @if (User.HasClaim(claim =>
+              claim.Type == DefinedUserClaimTypes.Role &&
+                 claim.Value == DefinedRoles.Admin))
+                {
+                    <li class="nav-list-item"><a class="main-font-color" asp-page="/CreateLessons">Create Lessons</a></li>
+                }
+            </ul>
+            <partial name="_LoginPartial" />
+        </nav>
+    </header>
+    
+
+
+    <main>
+        @RenderBody()
+        @*<section  class="feedback-section">*@
+
         <partial name="_CookieConsentPartial" />
         @{ var subscribeBarCookie = Model.Request.Cookies["subscribe-bar"];}
         @if (subscribeBarCookie == null)
@@ -43,28 +74,6 @@
                 </form>
             </section>
         }
-
-        <nav class="nav-menu site-width">
-            <ul class="nav-list">
-                <li class="nav-list-item "><a class="main-font-color" asp-page="/Index">ImageFlashcards</a></li>
-                <li class="nav-list-item "><a class="main-font-color" asp-page="/About">About</a></li>
-                @if (User.HasClaim(claim =>
-               claim.Type == DefinedUserClaimTypes.Role &&
-                  claim.Value == DefinedRoles.Admin))
-                {
-                    <li class="nav-list-item"><a class="main-font-color" asp-page="/CreateLessons">Create Lessons</a></li>
-                }
-            </ul>
-            <partial name="_LoginPartial" />
-        </nav>
-    </header>
-    
-
-
-    <main>
-        @RenderBody()
-        @*<section  class="feedback-section">*@
-            
         <form class="feedback-form site-width" asp-page="feedback" method="post">
 
             <p class="feedback-title">
@@ -73,7 +82,7 @@
                 </svg>
                 <span>Need help?</span>
             </p>
-            
+
             <div id="feedback-form-fields">
                 <div id="feedback-sent-message" style="display:none;position:absolute;height:140px;width:100%;top:120px;">
                     <span style="margin:auto;">Thank you!</span>
@@ -90,16 +99,17 @@
     </main>
    
     <footer>
+        
+
         <section class="footer-container site-width">
-           
+
             <span class="copyright-span">&copy; 2020 - Shider Petkov</span>
-            
-        </section>        
+
+        </section>
     </footer>
-    @*<aside class="box-left" style="background-color: rgb(8, 127, 148);">c </aside>
-        <aside class="box-right" style="background-color: rgb(83, 121, 83);"> a </aside>*@
-    @*<b class="nav-left"></b>
-        <b class="nav-right"></b>*@
+    <section id="modals-section">
+        
+    </section>
 
 <environment include="Development">
     @*<script src="~/lib/jquery/dist/jquery.js"></script>

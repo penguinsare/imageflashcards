@@ -225,7 +225,6 @@ namespace ImageFlashCards.Pages
         public bool IsNewFlashcardAvailable()
         {
             if (!String.IsNullOrEmpty(NativeWord) &&
-                !String.IsNullOrEmpty(ForeignWord) &&
                 XCoordinate >= 0 &&
                 YCoordinate >= 0)
             {
