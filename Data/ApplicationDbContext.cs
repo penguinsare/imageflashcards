@@ -16,6 +16,7 @@ namespace ImageFlashCards.Data
         }
 
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<EmailSubscriber> EmailSubscribers { get; set; }
 
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Flashcard> Flashcards { get; set; }
@@ -31,6 +32,8 @@ namespace ImageFlashCards.Data
 
         public DbSet<WordPair> WordPairs{ get; set; }
         public DbSet<LanguagePair> LanguagePairs { get; set; }
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

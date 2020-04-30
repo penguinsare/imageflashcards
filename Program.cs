@@ -7,6 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace ImageFlashCards
 {
@@ -14,11 +16,48 @@ namespace ImageFlashCards
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var isDevelopment = environment == EnvironmentName.Development;
+            var loggerConfiguration = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .Enrich.FromLogContext()            
+            .WriteTo.RollingFile("log-{Date}.txt",
+            retainedFileCountLimit: 7);
+
+            if (isDevelopment)
+            {
+                loggerConfiguration.WriteTo.Console();
+            }
+
+            Log.Logger = loggerConfiguration.CreateLogger();
+
+            try
+            {
+                Log.Information("Starting web host");
+                CreateWebHostBuilder(args).Build().Run();
+                //return 0;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+                //return 1;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+
+            }
+            //CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+            })
+            .UseSerilog()
+            .UseStartup<Startup>();
     }
 }

@@ -407,6 +407,10 @@ nav {
 
 
 }*/
+a {
+    text-decoration: none !important;
+}
+
 html {
     /*font-family: 'Roboto', sans-serif;*/
     font-family: 'Nunito', sans-serif;
@@ -418,6 +422,7 @@ html {
     height: 100%;
     max-width: 100%;
     max-height: 100%;
+    background-color: #fafafa;
     /*overflow: hidden !important;*/
 }
 
@@ -439,17 +444,19 @@ header{
     width: 100%;
 }
 
+.text-content-width {
+    margin: 0 2em;
+}
 /*.display-flex {
     display: flex !important;
 }*/
-
 footer {
     position: absolute;
     bottom: 0;
     display: flex;
     /*justify-content: center;
     align-content: center;*/
-    width:100%;
+    width: 100%;
     height: 2.5em;
 }
 .main-font-color {
@@ -467,112 +474,82 @@ footer {
 }
 
 
-#subscribe-section {
-    display: flex;
-    justify-content: center;
-    min-height: 2em;
-    height: auto;
-    background-color: black;
+
+
+.nav-menu {
     width: 100%;
-}
-
-#subscribe-form {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: stretch;    
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: space-between;    
+    margin: 0 auto;
+    min-height: 2.7em;
 }
 
-.subscribe-form-items {
-    margin: 0.3em;
-}
-label.subscribe-form-items {
-    margin-left: 0.6em;
+#left-nav-menu {
+    display: flex;
 }
 
-#subscribe-disable-button {
-    cursor: pointer;
-    background-color: black;
+.nav-menu-item {
+    display: flex;
     color: white;
-    border: 2px solid black;
-    border-radius: 5px;
-    outline: none;
-}
-
-#subscribe-disable-button:hover {
-    border: 2px solid white;
-    
-}
-    #subscribe-disable-button:focus {
-        border: 2px solid white;
-    }
-
-
-#subscribe-form > label {
-    color: white !important;
-    display: flex;
-    align-self: center;
-}
-
-
-
-#subscribe-form > input[type=email] {
-    margin: 0.3em;
-    border-radius: 5px;
-    border: 0;
-    padding: 5px;
-    outline:none;
-}
-
-    #subscribe-form > input[type=email]:focus {
-        background-color: #f5f5f5;
-    }
-
-#subscribe-button {
-    color: black;
-    background-color: #00DBFA;
-    border: 2px solid #00DBFA;
     border-radius: 5px;
     cursor: pointer;
     outline: none;
+    height: auto;
+    margin: 0.25em 0 0.25em 1em;
+}
+    .nav-menu-item span {
+        margin: auto !important;
+    }
+
+
+.join-button {
+    background-color: #ff4742;
+    border: 2px solid #ff4742;
+    width: 6em;
+}
+    .join-button:hover, .join-button:focus {
+        background-color: #d13c38;
+        border-color: #d13c38;
+    }
+
+.sign-in-button {
+    color: #9cc926;
+    width: 6em;
+    margin: 0.25em 0 0.25em 1em;
+}
+    .sign-in-button:hover, .sign-in-button:focus {
+        color: white;
+        background-color: #9cc926;
+        border-color: #9cc926;
+    }
+
+    .sign-in-button span {
+        margin: auto;
+    }
+
+#new-imageflashcard-nav-button {
+    color: #9cc926;
+    width: 6em;
 }
 
-    #subscribe-button:hover, #subscribe-button:focus {
-        background-color: black;
-        color: #00DBFA;
+    #new-imageflashcard-nav-button:hover, #new-imageflashcard-nav-button:focus {
+        color: white;
+        background-color: #9cc926;
+        border-color: #9cc926;
     }
 
-
-
-    .nav-menu {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin: 0 auto;
-    }
-
-    .nav-list {
-        display: flex;
-        flex-wrap: wrap;
-        list-style-type: none;
-        padding: 0.5em;
-        margin:0.3em 0.1em;
-    }
-
-        .nav-list-item {
-            display: flex;
-            list-style-type: none;
-            margin: 0 0.5em 0 0;   
-        }
-            .nav-list-item a {
-                text-decoration: none;
-            }
-
-                .nav-list-item span::selection {
-                    color: none;
-                    background: none;
-                }
+#my-stats-nav-button {
+    margin-right: 0;
+    color: #9cc926;
+    width: 6em;
+}
+#my-stats-nav-button:hover, #my-stats-nav-button:focus {
+    color: white;
+    background-color: #9cc926;
+    border-color: #9cc926;
+}
 .menu-arrow {
     width: 0.25em;
     height: 0.25em;
@@ -580,35 +557,43 @@ label.subscribe-form-items {
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 0.1em;
-    margin-left: 0.3em;
-    margin-top: 0.2em;
+    margin-left: 0.33em;
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
+    position: relative;
+    top: -0.17em;
 }
 
 #main-menu-button {
     cursor: pointer;
     position: relative;
+    color: black;
+    margin-right: 0;
+    border: none;
+    background-color: #fafafa;
+    /*border: 1px solid lightgray;*/
 }
 
-#main-menu-expanded {
-    display: none;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    padding: 1em;
 
-    background-color: white;
-    position: absolute;
-    z-index: 300;
-    bottom: -2em;
-    max-width: 20em;
-    /*width: 100%;*/
-    height: auto;
 
-    box-shadow: 0 0 10px lightgray;
-    border-radius: 10px;
-    border: 1px solid lightgray;
-}
+
+    #main-menu-expanded {
+        display: none;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        padding: 1em;
+        background-color: white;
+        position: absolute;
+        z-index: 300;
+        bottom: -2em;
+        max-width: 20em;
+        min-width: 10em;
+        /*width: 100%;*/
+        height: auto;
+        box-shadow: 0 0 10px lightgray;
+        border-radius: 10px;
+        border: 1px solid lightgray;
+    }
 
     #main-menu-expanded:before {
         content: " ";
@@ -641,11 +626,108 @@ label.subscribe-form-items {
         /* box-shadow: 0 2px 3px lightgray; */
         
     }
+
+
 .main-menu-expanded-section {
     display:flex;
     flex-direction: row;
 }
-/*      end of slider       */
+
+.nav-expanded-menu-item {
+    display: flex;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    height: auto;
+    min-height: 1.5em;
+    width: auto;
+    margin: 0.3em 0 0 0;
+}
+
+    .nav-expanded-menu-item span {
+        margin: auto !important;
+    }
+
+
+
+
+#subscribe-section {
+    display: flex;
+    justify-content: center;
+    min-height: 2em;
+    height: auto;
+    background-color: black;
+    width: 100%;
+}
+
+#subscribe-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: stretch;
+}
+
+.subscribe-form-items {
+    margin: 0.3em;
+}
+
+label.subscribe-form-items {
+    margin-left: 0.6em;
+}
+
+#subscribe-disable-button {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    outline: none;
+}
+
+    #subscribe-disable-button:hover {
+        border: 2px solid white;
+    }
+
+    #subscribe-disable-button:focus {
+        border: 2px solid white;
+    }
+
+
+#subscribe-form > label {
+    color: white !important;
+    display: flex;
+    align-self: center;
+}
+
+
+
+#subscribe-form > input[type=email] {
+    margin: 0.3em;
+    border-radius: 5px;
+    border: 0;
+    padding: 5px;
+    outline: none;
+}
+
+    #subscribe-form > input[type=email]:focus {
+        background-color: #f5f5f5;
+    }
+
+#subscribe-button {
+    color: black;
+    background-color: #00DBFA;
+    border: 2px solid #00DBFA;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+    #subscribe-button:hover, #subscribe-button:focus {
+        background-color: black;
+        color: #00DBFA;
+    }
+
 .footer-container {
     width: 100%;
     display: flex;
@@ -759,7 +841,7 @@ textarea.feedback-section-items {
     .feedback-title:before {
         content: '';
         /*background-image: url(../frog_help22.png);*/
-        background-image: url(../frog_help22.svg);
+        background-image: url(../frog_help22.png);
         height: 3em;
         width: 5em;
         background-repeat: no-repeat;

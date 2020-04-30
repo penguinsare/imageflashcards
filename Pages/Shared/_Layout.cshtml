@@ -12,8 +12,10 @@
         <link rel="stylesheet" href="~/css/flashcard.css" />
         <link rel="stylesheet" href="~/css/lesson-controls.css" />
         <link rel="stylesheet" href="~/css/consent.css" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="stylesheet">
+        @*<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">*@
+        @*<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="stylesheet">*@
+        @*<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="preload" as="font">*@
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -27,30 +29,66 @@
 <body >
     <header>
         <nav class="nav-menu site-width">
-            <ul class="nav-list">
+            <section id="left-nav-menu">
                 @*<li class="nav-list-item "><a class="main-font-color" asp-page="/Index">ImageFlashcards</a></li>*@
-                <li  class="nav-list-item "><span id="main-menu-button">
-                    ImageFlashcards<i class="menu-arrow"> </i>
+                <a href="/" id="main-menu-button" class="nav-menu-item">
+                    <span>
+                        Image<span class="logo-second-part">Flashcards</span>@*<i class="menu-arrow"> </i>
                         <div id="main-menu-expanded">
-                            <p style="width:100%;">Home</p>
-                            <div class="main-menu-expanded-section">
-                                <span>SignIn</span>
-                                <span class="join-button">Join</span>
-                            </div>  
-                            <p>My Stats</p>
-                            <p style="display:flex;text-wrap:none;">Create new ImageFlashcard</p>
-                        </div>
-                    </span></li>
-                <li class="nav-list-item "><a class="main-font-color" asp-page="/About">About</a></li>
-                @if (User.HasClaim(claim =>
-              claim.Type == DefinedUserClaimTypes.Role &&
-                 claim.Value == DefinedRoles.Admin))
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="nav-expanded-menu-item add-new-imageflashcard"><span>Sign Out</span></div>
+                            }
+                            else
+                            {
+                                <div class="nav-expanded-menu-item sign-in-button"><span>Sign In</span></div>
+                                <div class="nav-expanded-menu-item join-button"><span>Join</span></div>
+                            }
+                            <a class="nav-expanded-menu-item " asp-page="/MyStats"><span>My Stats</span></a>                            
+                            
+                        </div>*@
+                    </span>
+                </a>
+                @*<a id="my-stats-nav-button" class="nav-menu-item my-stats-button hide-in-mobile-mode" asp-page="/MyStats"><span>My Stats</span></a>*@
+                @*@if (User.Identity.IsAuthenticated)
                 {
-                    <li class="nav-list-item"><a class="main-font-color" asp-page="/CreateLessons">Create Lessons</a></li>
+                    <a class="nav-menu-item new-imageflashcard-nav-button hide-in-mobile-mode" 
+                       asp-page="/CreateLessons">
+                        <span>
+                            + New
+                        </span>
+                    </a>
                 }
-            </ul>
-            <partial name="_LoginPartial" />
-        </nav>
+                else
+                {
+                    <div id="new-imageflashcard-nav-button" 
+                         class="nav-menu-item hide-in-mobile-mode">
+                        <span>+ New</span>
+                    </div>
+                }*@
+
+
+                @if (User.HasClaim(claim =>
+       claim.Type == DefinedUserClaimTypes.Role &&
+          claim.Value == DefinedRoles.Admin))
+                {
+                    <a class="nav-menu-item hide-in-mobile-mode" asp-page="/CreateLessons"><span class="main-font-color">+ New Lesson</span></a>
+                }
+            </section>
+            @*<section id="right-nav-menu" style="display:flex;">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="nav-menu-item add-new-imageflashcard hide-in-mobile-mode"><span>Sign Out</span></div>
+                }
+                else
+                {
+                    <div class="nav-menu-item sign-in-button hide-in-mobile-mode"><span>Sign In</span></div>
+                    <div class="nav-menu-item join-button"><span>Join</span></div>
+                }
+            </section>*@
+
+
+</nav>
     </header>
     
 
@@ -68,13 +106,13 @@
                     <label class="subscribe-form-items" for="subscribeEmail">
                         Let us notify you when we add more flashcards and features. No spam. One click unsubscribe.
                     </label>
-                    <input class="subscribe-form-items" type="email" name="subscribeEmail" value="" placeholder="your email" />
+                    <input class="subscribe-form-items" id="subscribe-email" type="email" name="subscribeEmail" value="" placeholder="your email" />
                     <input class="subscribe-form-items" id="subscribe-button" type="submit" value="Subscribe" />
                     <button class="subscribe-form-items" id="subscribe-disable-button">X</button>
                 </form>
             </section>
         }
-        <form class="feedback-form site-width" asp-page="feedback" method="post">
+        <form id="feedback-form" class="feedback-form site-width" asp-page="feedback" method="post">
 
             <p class="feedback-title">
                 <svg class="feedback-svg-icon" viewBox="0 0 20 20">

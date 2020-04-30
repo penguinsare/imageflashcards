@@ -248,12 +248,12 @@ positionFlashcard = function (fc) {
     let resizeCoeffX = boxImage.width() / lessonImageNaturalWidth;
     let resizeCoeffY = boxImage.height() / lessonImageNaturalHeight;
 
-    if (resizeCoeffX > 1) {
-        resizeCoeffX = 1;
-    }
-    if (resizeCoeffY > 1) {
-        resizeCoeffY = 1;
-    }
+    // if (resizeCoeffX > 1) {
+    //     resizeCoeffX = 1;
+    // }
+    // if (resizeCoeffY > 1) {
+    //     resizeCoeffY = 1;
+    // }
 
     let fcOriginalXPositionResized = resizeCoeffX * fc.data('xdistance');
     let fcOriginalYPositionResized = resizeCoeffY * fc.data('ydistance');
@@ -293,7 +293,7 @@ positionFlashcard = function (fc) {
     fcToggle.css('top', fcOriginalYPositionResized + 'px');
     fc.css('left', fcOriginalXPositionResized + rightOffsetOutsideOfImageBox() + 'px');
     fc.css('top', fcOriginalYPositionResized + $(1).toPx() + 'px');  
-    //console.log('fcOriginalYPositionResized', fcOriginalYPositionResized);
+    console.log('fcOriginalYPositionResized', fcOriginalYPositionResized);
 }
 
 toggleFlashcard = function (fc) {
@@ -390,13 +390,16 @@ adjustLessonImage = function () {
     //BIG TEST of dynamic image adjustment
     // if image natural dimensions are smaller than screen
     // or the scrren is portrait orientation
-    if ((lessonImage[0].naturalWidth <= viewportWidth ||
-        viewportWidth / viewportHeight < 1) && viewportWidth < 800) {
+    if ((
+        (lessonImage[0].naturalWidth <= viewportWidth ||
+        viewportWidth / viewportHeight < 1) && viewportWidth < 800) ||
+        lessonImage[0].naturalHeight <= viewportHeight) {
         mainBox.find('#box-image').css('height', 'auto');
         mainBox.find('#lesson-image').css('width', '100%');
         console.log('if ------');
     } else {
         console.log('naturalWidth', lessonImage[0].naturalWidth)
+        console.log('naturalWidth', lessonImage[0].naturalHeight)
         console.log('viewportWidth', viewportWidth)
         let scaleCoeff = lessonImage[0].naturalWidth / viewportWidth;
         console.log('scaleCoeff = lessonImage[0].naturalWidth(' +
@@ -425,6 +428,8 @@ adjustLessonImage = function () {
             console.log('else else ------');
         }
     }
+
+    $('#photograph-by-section').css('width', lessonImage.width());
 
     flashcardList.each(function () {
         let fc = $(this);

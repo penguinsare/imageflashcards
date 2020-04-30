@@ -37,10 +37,6 @@ namespace ImageFlashCards.Pages
                     Path = "/"
                 });
             }
-            //else
-            //{
-
-            //}
 
             if (lessonId > 0)
             {
@@ -68,12 +64,6 @@ namespace ImageFlashCards.Pages
                 {
                     PreviousLessonId = prev[0].LessonId;
                 }
-                //Lesson = currAndNext[0];
-                //PreviousLessonId = prev[0]
-               // Lesson = await _context.Lessons
-               //.Include(lesson => lesson.Image)
-               //.Include(lesson => lesson.Flashcards)
-               //.FirstOrDefaultAsync(l => l.LessonId == lessonId);
             }
             else
             {
@@ -91,47 +81,7 @@ namespace ImageFlashCards.Pages
                         NextLessonId = currAndNext[1].LessonId;
                     }
                 }
-                
-                
-                //Lesson = await _context.Lessons
-                //.Include(lesson => lesson.Image)
-                //.Include(lesson => lesson.Flashcards)
-                //.FirstOrDefaultAsync(l => l.LessonId == 1);
-            }
-            
-                //FlashcardList = new List<Flashcard>()
-                //{
-                //    new Flashcard() {
-                //    NativeWord = "kochen",
-                //    ForeignWord = "to cook",
-                //    XCoordinate = 408,
-                //    YCoordinate = 300
-                //    },
-                //    new Flashcard() {
-                //    NativeWord = "schlafen",
-                //    ForeignWord = "to sleep",
-                //    XCoordinate = 50,
-                //    YCoordinate = 300
-                //    },
-                //    new Flashcard() {
-                //    NativeWord = "lernen",
-                //    ForeignWord = "to study",
-                //    XCoordinate = 75,
-                //    YCoordinate = 120
-                //    },
-                //    new Flashcard() {
-                //    NativeWord = "Tisch",
-                //    ForeignWord = "table",
-                //    XCoordinate = 250,
-                //    YCoordinate = 250
-                //    }
-                //};
-            //Flashcard = new Flashcard() {
-            //    NativeWord = "kochen1",
-            //    ForeignWord = "to cook1",
-            //    XCoordinate = 408,
-            //    YCoordinate = 300
-            //};
+            }            
         }
     }
 }

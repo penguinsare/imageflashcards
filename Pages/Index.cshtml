@@ -22,13 +22,13 @@
             }
             @if (!String.IsNullOrEmpty(Model.Lesson?.Image?.AuthorUrl))
             {
-                <div style="display:flex;justify-content:flex-end;">
+                <section id="photograph-by-section" style="display:flex;justify-content:flex-end;">
                     <a target="_blank" href="@Model.Lesson?.Image?.AuthorUrl" style="font-size:0.6em;border-radius:1px;padding:0.2em;position:relative;right:0;top:-1em;background:lightblue;text-decoration:none;">Photograph by</a>
-                </div>
+                </section>
             }
             else
             {
-                <div style="height: 0.9em;"></div>
+                <section id="photograph-by-section" style="height: 0.9em;"></section>
             }
         </section>
 

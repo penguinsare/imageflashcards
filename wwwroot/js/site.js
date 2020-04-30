@@ -3,21 +3,73 @@
 
 // Write your JavaScript code.
 
+var mobileMode = false;
+
+var feedbackFormClicked = false;
+
 $(function () {
     boxImage = $('.box-image');
     footerContainer = $('.footer-container');
-    feedbackSection = $('.feedback-form');
+    feedbackSection = $('#feedback-form');
     adjustFeedbackButton();
     $(window).bind('resize', function () {
+        if ($(window).width() > 600) {
+            mobileMode = false;
+        } else {
+            mobileMode = true;
+        }
+        console.log('window width',$(window).width());
         adjustFeedbackButton();
+        // adjustNavMenu();
+        // toggleMobileModeElements();
     });
     $(window).bind('load', function () {
+        if ($(window).width() > 600) {
+            mobileMode = false;
+        } else {
+            mobileMode = true;
+        }
         adjustFeedbackButton();
+        // adjustNavMenu();
+        // toggleMobileModeElements();
     });
-    let feedbackForm = $('.feedback-form');
+
+    $(window).bind('click', function () {
+        console.log('window click event');
+        console.log('feedbackFormClicked', feedbackFormClicked);
+        if (!feedbackFormClicked) {
+            let feedbackForm = $('#feedback-form');
+            if (feedbackForm.css('bottom') === '-1px') {
+                feedbackForm.css('z-index', '10');
+                feedbackForm.animate({
+                    bottom: -feedbackForm.data('bottomHideOffset') + 'px',
+                    'width': (feedbackForm.width() / 2) + 'px',
+                    'left': (feedbackForm.width() / 2) + feedbackForm.offset().left + 'px'
+                }, 400, function () {
+                    feedbackForm.find('.feedback-svg-icon').removeClass('feedback-svg-icon-rotate');
+                }
+                );
+    
+            }
+            
+        }
+        feedbackFormClicked = false;
+    });
+
+    let feedbackForm = $('#feedback-form');
     feedbackForm.data('bottomHideOffset', (feedbackForm.height() - feedbackForm.find('.feedback-title').height()));
     feedbackForm.css('bottom', -(feedbackForm.data('bottomHideOffset')) + 'px');
 
+
+    // $('#main-menu-button').bind('mouseenter', function () {
+    //     if (mobileMode) {
+    //         $(this).find('.logo-second-part').css('color', '#9cc926');
+    //     }       
+    // });
+    // $('#main-menu-button').bind('mouseleave', function () {
+    //     $(this).find('.logo-second-part').css('color', 'black');
+    // });
+    
     $('.feedback-title').bind('click', function (e) {
         e.preventDefault();
         let feedbackTitle = $(this);
@@ -101,7 +153,47 @@ $(function () {
             });
     });
 
+    // bind on mouseup to be sure it will execute before the window click event click
+    feedbackSection.bind('mouseup', function () {
+        feedbackFormClicked = true;
+
+    });
     // SUBSCRIBE BAR
+    $('#subscribe-form').bind('submit', function (e) {
+        e.preventDefault();
+        let subscribeForm = $(this);
+        let subscribeEmailInput = subscribeForm.find('#subscribe-email');
+        if (subscribeEmailInput.val().length < 1) {
+            subscribeForm.trigger('reset');
+            subscribeForm.find('input[type=submit]').trigger('blur');
+        }else {
+            console.log('subscribeEmailInput.val()', subscribeEmailInput.val());
+            $.ajax({
+                url: '/api/Subscribe',
+                type: 'POST',
+                data: JSON.stringify(
+                    {
+                        //'EmailSubscriberId': 0,                        
+                        'Email': subscribeEmailInput.val(),
+                        //'SubscribedAtDate': null
+                    }
+                ),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function () {
+                    $(this).closest('#subscribe-section').hide();
+                    let expDate = new Date();
+                    newYear = expDate.getFullYear() + 2;
+                    expDate.setFullYear(expDate.getFullYear() + 2);
+                    document.cookie = 'subscribe-bar=no; expires=' + expDate.toUTCString() + '; path=/;';
+                },
+                error: function () {
+                        subscribeForm.trigger('reset');
+                        subscribeForm.find('input[type=submit]').trigger('blur');
+                }
+            });
+        }
+    });
     $('#subscribe-disable-button').bind('click', function (e) {
         e.preventDefault();
         if (window.confirm('Do you want to remove the subscribe bar permanently?')) {
@@ -109,25 +201,24 @@ $(function () {
             let expDate = new Date();
             newYear = expDate.getFullYear() + 2;
             expDate.setFullYear(expDate.getFullYear() + 2);
-            //console.log('full year ', expDate.getFullYear());
-            //console.log('subscribe-bar=no; expires=' + expDate.toUTCString() + '; path=/;');
             document.cookie = 'subscribe-bar=no; expires=' + expDate.toUTCString() + '; path=/;';
         }
     });
 
-    $('#main-menu-button').bind('click', function (e) {
-        e.preventDefault();
-        let menuButton = $(this);
-        let menuExpanded = $('#main-menu-expanded');
-
-        if (menuExpanded.css('display') === 'none') {
-            menuExpanded.css('bottom', -(menuExpanded.outerHeight() + $(1).toPx()));
-            menuExpanded.show(100);
-        } else {
-            menuExpanded.hide();
-        }
-        
-    });
+    // $('#main-menu-button').bind('click', function (e) {
+    //     e.preventDefault();
+    //     if (mobileMode){
+    //         let menuButton = $(this);
+    //         let menuExpanded = $('#main-menu-expanded');
+    
+    //         if (menuExpanded.css('display') === 'none') {
+    //             menuExpanded.css('bottom', -(menuExpanded.outerHeight() + $(1).toPx()));
+    //             menuExpanded.show(100);
+    //         } else {
+    //             menuExpanded.hide();
+    //         }
+    //     }        
+    // });
 });
 
 adjustFeedbackButton = function () {
@@ -150,3 +241,34 @@ calculateFeedbackMessageChars = function () {
         '/' +
         messageTextarea.attr('maxLength'));    
 }
+// ENABLE LATER
+// adjustNavMenu = function () {
+    
+//     let mainMenuButton = $('#main-menu-button');
+//     if (mobileMode){
+//         mainMenuButton.css('border','1px solid lightgray');
+//         mainMenuButton.css('background-color','#e6e6e6');
+//         mainMenuButton.css('cursor','pointer');
+//         mainMenuButton.find('.logo-second-part').css('color', '#9cc926');
+//         mainMenuButton.find('i').show();
+//     } else {
+//         mainMenuButton.css('border','none');
+//         mainMenuButton.css('background-color','#fafafa');
+//         mainMenuButton.css('cursor','default');
+//         mainMenuButton.find('.logo-second-part').css('color', 'black');
+//         mainMenuButton.find('i').hide();
+//         $('#main-menu-expanded').hide();
+//     }
+    
+// };
+
+// ENABLE LATER
+// toggleMobileModeElements = function () {
+//     let mobileModeElements = $('.hide-in-mobile-mode');
+//     if (mobileMode) {
+//         mobileModeElements.hide();
+//     }else{
+//         mobileModeElements.show();
+//     }
+
+// };

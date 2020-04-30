@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace ImageFlashCards.Pages
 {
@@ -210,7 +211,7 @@ namespace ImageFlashCards.Pages
                 }
                 catch (Exception ex)
                 {
-                    //put log
+                    Log.Fatal(ex, "Exception");
                     return RedirectToPage("CreateLessons");
                 }
             }
