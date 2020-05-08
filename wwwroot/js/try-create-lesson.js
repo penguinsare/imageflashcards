@@ -1,8 +1,9 @@
 ﻿var lessonImageNaturalWidth = null;
 var lessonImageNaturalHeight = null;
+var mouseIsDown = false;
 
 $(function () {
-    addFlashcard();
+    //addFlashcard();
     lessonImageNaturalWidth = $('#lesson-image').get(0).naturalWidth;
     lessonImageNaturalHeight = $('#lesson-image').get(0).naturalHeight;
     $(document).bind('mousemove', (e) => dragFlashcard(e));
@@ -84,13 +85,25 @@ $(function () {
 addFlashcard = function () {
     console.log('add a flashcard');
     let flashcard = $('<div class="add-flashcard" data-xdistance="1" data-ydistance="1"></div>')
-    .prepend('<button class="drag-flashcard" size="4" >Drag Flashcard</button>',
+    .prepend('<button class="drag-flashcard" size="4" >Click and Drag</button>',
     ['<input class="flashcard-input front" size="4" type="text" placeholder="Front">',
     '<input class="flashcard-input" size="4" type="text" placeholder="Back">',
-    '<button class="minimize-flashcard" size="4">Minimize Flashcard</button>',]);
+    '<button class="minimize-flashcard" size="4">Minimize</button>',
+    '<button class="delete-flashcard" size="4">Delete</button>',]);
     console.log(flashcard);
-    flashcard.data('xdistance', 1);
-    flashcard.data('ydistance', 1);
+    // flashcard.data('xdistance', 1);
+    // flashcard.data('ydistance', 1);
+    flashcard.bind('click', function () {
+        if (flashcard.find('input.front').css('display') === 'none') {
+            flashcard.find('.flashcard-label').remove();
+            flashcard.find('*').show(300, () => {
+                positionFlashcard(flashcard);
+                flashcard.css('transition', 'none');});
+            flashcard.css('background-color', 'white');
+            flashcard.css('cursor', 'default'); 
+            
+        }        
+    });
     flashcard.find('button.drag-flashcard').bind('mousedown', function (e) {
         e.preventDefault();
         draggedFlashcardJQueryObject = $(this).closest('.add-flashcard');
@@ -111,14 +124,39 @@ addFlashcard = function () {
     });
 
     flashcard.find('button.minimize-flashcard').bind('click', function () {
-        flashcard.find('*').hide(300);
+        flashcard.css('transition', 'left 1s');
+        flashcard.find('*').hide(300, () => positionFlashcard(flashcard));
         //let front = flashcard.find('input.front').val();
-        flashcard.prepend(`<span class="flashcard-label" style="color:white;background-color:#9cc926;">${flashcard.find('input.front').val()}</span>`);
-        flashcard.css('background-color', '#9cc926');
-        flashcard.css('cursor', 'pointer');
+        let flashcardLabelContainer = $(`<div class="flashcard-label" style="display:flex;flex-direction:row;flex-wrap:nowrap;"></div>`);
+        flashcardLabelContainer.append('<span class="flashcard-label front-word" style="color:white;background-color:#9cc926;"></span>');
+        let flashcardLabel = flashcardLabelContainer.find('.front-word');
+        flashcardLabel.text(flashcard.find('input.front').val());
+        // let flashcardLabel = $(`<span class="flashcard-label" style="color:white;background-color:#9cc926;">${flashcard.find('input.front').val()}</span>`);
+        // flashcard.prepend(`<span class="flashcard-label" style="color:white;background-color:#9cc926;">${flashcard.find('input.front').val()}</span>`);
         
+        
+        
+        flashcard.prepend(flashcardLabelContainer);
 
+        flashcardLabel.outerWidth();
+        console.log('flashcardWidthInEm', flashcardLabel.outerWidth());
+        if (flashcardLabel.outerWidth() > $(13).toPx()){
+            //flashcard.css('width', '8em'); 
+            flashcardLabel.css('overflow', 'hidden');
+            flashcardLabel.css('width', '12em');
+            flashcardLabelContainer.append('<span class="flashcard-label" style="color:white;background-color:#9cc926;">...</span>');            
+        }
+        //positionFlashcard(flashcard);
+        flashcard.css('background-color', '#9cc926');
+        flashcard.css('cursor', 'pointer');  
+        // flashcard.css('left', 'pointer');
         
+    });
+
+    flashcard.find('button.delete-flashcard').bind('click', function () {
+        if (confirm(`Delete flashcard${flashcard.find('input.front').val().length > 0 ? ' \"' + flashcard.find('input.front').val() + '\"' : ''}?`)){
+            flashcard.remove();
+        }
     });
 
     $('.box-image').prepend(flashcard);
@@ -134,7 +172,7 @@ dragFlashcard = function (e) {
     console.log('mouse move event', flashcard.data('cursorToFlashcardYOffset'));
     let boxImage = $('#box-image');
     let lessonImage = $('#lesson-image');
-    if (!flashcard || !boxImage) return;
+    if (!flashcard || !boxImage || !lessonImage) return;
     let lessonImageNaturalWidth = lessonImage.get(0).naturalWidth;
     let lessonImageNaturalHeight = lessonImage.get(0).naturalHeight;
     if (lessonImageNaturalWidth <= 0 || lessonImageNaturalHeight <= 0) return;
@@ -223,4 +261,51 @@ dragFlashcard = function (e) {
     //console.log("box-image.offsetX", $('#box-image').offset().left);
     //console.log("box-image.offsetY", $('#box-image').offset().top);
 
+}
+
+
+positionFlashcard = function (flashcard) {
+    console.log('call positionFlashcard(flashcard)');
+    let boxImage = $('#box-image');
+    let lessonImage = $('#lesson-image');
+    if (!flashcard || !boxImage || !lessonImage) return;
+    let lessonImageNaturalWidth = lessonImage.get(0).naturalWidth;
+    let lessonImageNaturalHeight = lessonImage.get(0).naturalHeight;
+    if (lessonImageNaturalWidth <= 0 || lessonImageNaturalHeight <= 0) return;
+    
+    let resizeCoeffX = boxImage.width() / lessonImageNaturalWidth;
+
+    let flashcardToBoxImageOffsetX = flashcard.data('xdistance') * resizeCoeffX;
+    let flashcardToBoxImageOffsetY = flashcard.data('ydistance') * resizeCoeffX;
+    console.log('flashcardToBoxImageOffsetX', flashcardToBoxImageOffsetX);
+    console.log('flashcard.outerWidth()', flashcard.outerWidth());
+
+
+
+    if (flashcardToBoxImageOffsetX > 0 &&
+        flashcardToBoxImageOffsetX < lessonImage.outerWidth()) {
+            console.log('flashcardToBoxImageOffsetX ' + flashcardToBoxImageOffsetX + ' + flashcard.outerWidth() ' + flashcard.outerWidth() +  ' >= lessonImage.outerWidth() ' +lessonImage.outerWidth());
+            if (flashcardToBoxImageOffsetX + flashcard.outerWidth() >= lessonImage.outerWidth()){
+                flashcard.addClass('right-edge');
+                flashcard.css('left', (flashcardToBoxImageOffsetX - flashcard.outerWidth()) + 'px');
+            }
+            else{
+                flashcard.removeClass('right-edge');
+                flashcard.css('left', (flashcardToBoxImageOffsetX) + 'px');
+            }
+    } else if (flashcardToBoxImageOffsetX < 0) {
+        flashcard.css('left', 1 + 'px');
+    } else {
+        flashcard.css('left', (lessonImage.outerWidth() - flashcard.outerWidth() -1) + 'px');
+
+    }
+
+    if (flashcardToBoxImageOffsetY > 0 &&
+        flashcardToBoxImageOffsetY < lessonImage.height()) {
+        flashcard.css('top', (flashcardToBoxImageOffsetY) + 'px');
+    } else if (flashcardToBoxImageOffsetY < 0) {
+        flashcard.css('top', 1 + 'px');
+    } else {
+        flashcard.css('top', (lessonImage.height() - 1) + 'px');
+    }
 }

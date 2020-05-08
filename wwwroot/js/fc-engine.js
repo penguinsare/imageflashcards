@@ -1,5 +1,6 @@
 ﻿
 var mouseIsDown = false;
+var lessonImageIsLoaded = false;
 var flashcardList = null;
 var boxImage = null;
 var lessonImageNaturalWidth = 0;
@@ -19,8 +20,7 @@ $(function () {
    
     flashcardList = $('.flashcard');
     boxImage = $('.box-image');
-    lessonImageNaturalWidth = $('#lesson-image').get(0).naturalWidth;
-    lessonImageNaturalHeight = $('#lesson-image').get(0).naturalHeight;
+    
     fcToggleOffset = $(1.8).toPx();
     //let elementNumber = 1;
     //window.setTimeout(function () {
@@ -33,73 +33,37 @@ $(function () {
     //}, 2000);
     
 
-
     flashcardList.each(function () {
         let fc = $(this);
 
         fc.addClass(classStateUnsolved);
         fc.addClass(classHidden);
-        positionFlashcard(fc);
+        if (lessonImageIsLoaded){
+            positionFlashcard(fc);
+        }
+        
     });
 
     $(window).bind('resize', function () {
+        if (lessonImageIsLoaded) {
+            adjustLessonImage();
+            flashcardList.each(function () {
+                let fc = $(this);           
+                positionFlashcard(fc);
+            });
+        }        
+    });
+
+    $('#lesson-image').one('load', function () {
+        
+        lessonImageNaturalWidth = $('#lesson-image').get(0).naturalWidth;
+        lessonImageNaturalHeight = $('#lesson-image').get(0).naturalHeight;
+        lessonImageIsLoaded = true;
         adjustLessonImage();
         flashcardList.each(function () {
             let fc = $(this);           
             positionFlashcard(fc);
         });
-
-    });
-
-    $('#lesson-image').one('load', function () {
-        //viewportWidth = $(window).width();
-        //viewportHeight = $(window).height();
-        //let mainBox = $('.main-box');
-        //let boxImage = mainBox.find('#box-image');
-        //let lessonImage = $(this);
-        //console.log('lessonImage.width() / lessonImage.height()', lessonImage.width() / lessonImage.height());
-        //console.log('viewportWidth', viewportWidth);
-        //console.log('viewportHeight', viewportHeight);
-
-        ////BIG TEST of dynamic image adjustment
-        //// if image natural dimensions are smaller than screen
-        //// or the scrren is portrait orientation
-        //if (lessonImage.width() <= viewportWidth ||
-        //    viewportWidth / viewportHeight < 1) {
-        //    mainBox.find('#box-image').css('height', 'auto');
-        //    mainBox.find('#lesson-image').css('width', '100%');
-        //    console.log('if ------');
-        //} else {
-        //    let scaleCoeff = lessonImage.width() / viewportWidth;
-        //    let visibleHeightOfImage = viewportHeight * scaleCoeff;
-        //    let imageScaledHeightToScreenRation = lessonImage.height() / visibleHeightOfImage;
-        //    if (imageScaledHeightToScreenRation > 1.5) {
-        //        mainBox.find('#box-image').css('height', '150vh');
-        //        mainBox.find('#lesson-image').css('width', 'auto');
-        //        mainBox.find('#lesson-image').css('height', 'calc(100% - 0.8em)');
-        //        console.log('else if ------');
-        //    } else {
-        //        mainBox.find('#box-image').css('height', 'auto');
-        //        mainBox.find('#lesson-image').css('width', '100%');
-        //        console.log('else else ------');
-        //    }
-        //}
-        
-
-        
-
-        ////if ((lessonImage.width() / lessonImage.height()) <= 1) {
-        ////    mainBox.find('#box-image').css('height', '100vh');
-        ////    mainBox.find('#lesson-image').css('width', 'auto');
-        ////} else {
-        ////    mainBox.find('#box-image').css('height', 'auto');
-        ////    mainBox.find('#lesson-image').css('width', '100%');
-        ////}
-        //flashcardList.each(function () {
-        //    let fc = $(this);
-        //    positionFlashcard(fc);
-        //});
-        adjustLessonImage();
     }).each(function () {
         if (this.complete) {
             //$(this).load(); // For jQuery < 3.0 
@@ -123,23 +87,6 @@ $(function () {
         let mainBox = $('.main-box');
         let boxImage = mainBox.find('#box-image');
         let lessonImage = mainBox.find('#lesson-image');
-        //if ($(this).is(':checked')) {
-        //    //mainBox.css('height', '100vh');
-        //    //mainBox.find('#box-image').css('height', 'calc(100vh - 8em)');
-
-        //    mainBox.find('#box-image').css('height', '100vh');
-
-        //    mainBox.find('#lesson-image').css('width', 'auto');
-        //    //mainBox.find('#lesson-image').css('height', 'calc(100% - 0.8em)');
-        //} else {
-        //    mainBox.find('#box-image').css('height', 'auto');
-        //    mainBox.find('#lesson-image').css('width', '100%');
-        //    //mainBox.find('#lesson-image').css('height', 'auto');
-        //}
-        //flashcardList.each(function () {
-        //    let fc = $(this);
-        //    positionFlashcard(fc);
-        //});
     });
 
     $('.flashcard-toggle').bind('click', function () {
@@ -245,15 +192,15 @@ $(function () {
 positionFlashcard = function (fc) {    
     let fcToggle = fc.prev();
 
+    if (lessonImageNaturalHeight <= 0 ||
+        lessonImageNaturalWidth <= 0) {
+            periodicallyCheckIfImageLoaded();
+            return;
+        }
+
     let resizeCoeffX = boxImage.width() / lessonImageNaturalWidth;
     let resizeCoeffY = boxImage.height() / lessonImageNaturalHeight;
 
-    // if (resizeCoeffX > 1) {
-    //     resizeCoeffX = 1;
-    // }
-    // if (resizeCoeffY > 1) {
-    //     resizeCoeffY = 1;
-    // }
 
     let fcOriginalXPositionResized = resizeCoeffX * fc.data('xdistance');
     let fcOriginalYPositionResized = resizeCoeffY * fc.data('ydistance');
@@ -377,62 +324,14 @@ offsetFlashcardLeft = function (flashcardWidth, flashcardXDistance, boxImageWidt
     return newLeft;
 }
 
-adjustLessonImage = function () {
-    viewportWidth = $(window).width();
-    viewportHeight = $(window).height();
-    let mainBox = $('.main-box');
-    let boxImage = $('#box-image');
-    let lessonImage = $('#lesson-image');
-    console.log('lessonImage.width() / lessonImage.height()', lessonImage.width() / lessonImage.height());
-    console.log('viewportWidth', viewportWidth);
-    console.log('viewportHeight', viewportHeight);
 
-    //BIG TEST of dynamic image adjustment
-    // if image natural dimensions are smaller than screen
-    // or the scrren is portrait orientation
-    if ((
-        (lessonImage[0].naturalWidth <= viewportWidth ||
-        viewportWidth / viewportHeight < 1) && viewportWidth < 800) ||
-        lessonImage[0].naturalHeight <= viewportHeight) {
-        mainBox.find('#box-image').css('height', 'auto');
-        mainBox.find('#lesson-image').css('width', '100%');
-        console.log('if ------');
-    } else {
-        console.log('naturalWidth', lessonImage[0].naturalWidth)
-        console.log('naturalWidth', lessonImage[0].naturalHeight)
-        console.log('viewportWidth', viewportWidth)
-        let scaleCoeff = lessonImage[0].naturalWidth / viewportWidth;
-        console.log('scaleCoeff = lessonImage[0].naturalWidth(' +
-            lessonImage[0].naturalWidth +
-            ') / viewportWidth(' +
-            viewportWidth +
-            ') = ', scaleCoeff);
-        let visibleHeightOfImage = viewportHeight * scaleCoeff;
-        console.log('visibleHeightOfImage = viewportHeight(' +
-            viewportHeight +
-            ') * scaleCoeff(' +
-            scaleCoeff +
-            ') = ', visibleHeightOfImage);
-        let imageScaledHeightToScreenRation = lessonImage[0].naturalHeight / visibleHeightOfImage;
-        console.log('lessonImage.height()', lessonImage.height());
-        console.log('lessonImage[0].naturalHeight', lessonImage[0].naturalHeight);
-        console.log('imageScaledHeightToScreenRation = ', imageScaledHeightToScreenRation);
-        if (imageScaledHeightToScreenRation > 1.2 ) {
-            mainBox.find('#box-image').css('height', '100vh');
-            mainBox.find('#lesson-image').css('width', 'auto');
-            mainBox.find('#lesson-image').css('height', 'calc(100% - 0.8em)');
-            console.log('else if ------');
-        } else {
-            mainBox.find('#box-image').css('height', 'auto');
-            mainBox.find('#lesson-image').css('width', '100%');
-            console.log('else else ------');
+
+periodicallyCheckIfImageLoaded = function () {
+    console.log('periodicallyCheckIfImageLoaded runs');
+    lessonImageNaturalWidth = $('#lesson-image').get(0).naturalWidth;
+    lessonImageNaturalHeight = $('#lesson-image').get(0).naturalHeight;
+    if (lessonImageNaturalHeight <= 0 ||
+        lessonImageNaturalWidth <= 0) {
+            setInterval(periodicallyCheckIfImageLoaded, 1000);
         }
-    }
-
-    $('#photograph-by-section').css('width', lessonImage.width());
-
-    flashcardList.each(function () {
-        let fc = $(this);
-        positionFlashcard(fc);
-    });
 }
